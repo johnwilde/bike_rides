@@ -8,22 +8,22 @@
 //= require jquery_ujs
 //= require_tree .
 $(document).ready(function(){
-  $("div#ft-map").each(function(i){
-    //$(this).html($(this).attr('ft_id'));
+  $("div#ft_map").each(function(i){
     initialize(this);
-    //alert('it works');
   });
-
 });
+
+var allmaps = [];
+
 function initialize(element) {
+  var map;
   var latlng = new google.maps.LatLng(-34.397, 150.644);
   var myOptions = {
     zoom: 8,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  //var map = new google.maps.Map(element,myOptions);
-  var map = new google.maps.Map(element, myOptions);
-  alert(map.getDiv());
+  map = new google.maps.Map(element, myOptions);
+  allmaps.push(map);
 }
 
