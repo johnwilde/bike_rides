@@ -1,3 +1,5 @@
+require 'geo_ruby'
+
 class RidesController < ApplicationController
   def new
   end

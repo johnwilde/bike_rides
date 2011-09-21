@@ -11,12 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110918222615) do
+ActiveRecord::Schema.define(:version => 20110920213630) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.text     "ridedata"
+    t.float    "centroid_lat"
+    t.float    "centroid_lon"
+    t.float    "bb_sw_lat"
+    t.float    "bb_sw_lon"
+    t.float    "bb_ne_lat"
+    t.float    "bb_ne_lon"
   end
 
 end

@@ -13,17 +13,34 @@ $(document).ready(function(){
   });
 });
 
-var allmaps = [];
 
 function initialize(element) {
   var map;
-  var latlng = new google.maps.LatLng(-34.397, 150.644);
+
+  var lat = element.getAttribute('lat');
+  var lon = element.getAttribute('lon');
+  var latlng = new google.maps.LatLng(lat,lon);
+
   var myOptions = {
-    zoom: 8,
+    zoom: 3,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   map = new google.maps.Map(element, myOptions);
-  allmaps.push(map);
+  var sw_lat = element.getAttribute('sw_lat');
+  var sw_lon = element.getAttribute('sw_lon');
+  var ne_lat = element.getAttribute('ne_lat');
+  var ne_lon = element.getAttribute('ne_lon');
+  var latLngBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(sw_lat, sw_lon),
+      new google.maps.LatLng(ne_lat, ne_lon));
+  
+  var layer = new google.maps.FusionTablesLayer({
+    query: {
+             select: 'geometry',
+      from: element.getAttribute('ft_id')
+           },
+  });
+  layer.setMap(map);
+  map.fitBounds( latLngBounds );
 }
-
