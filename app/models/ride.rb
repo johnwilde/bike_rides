@@ -24,7 +24,8 @@ class Ride < ActiveRecord::Base
   validates :fusiontable_id, :presence  => true
 
   def self.make_rides_from_fusiontables
-
+    binding.pry
+    puts "Checking for new rides."
     ft=GData::Client::FusionTables.new; 
     config=YAML::load_file(File.join(File.dirname(__FILE__),'../../credentials.yml'))
     ft.clientlogin(config["google_username"], config["google_password"])

@@ -1,5 +1,9 @@
 BikeRides2::Application.routes.draw do
-  resources :rides
+  resources :rides do 
+    collection do
+      put 'updateall'
+    end
+  end
 
   get "rides/index"
 

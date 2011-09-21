@@ -1,9 +1,12 @@
-<h1>All Rides</h1>
-
-<%= will_paginate %>
+<div class="digg_pagination">
+  <div class="page_info">
+    <%= page_entries_info @rides %>
+  </div>
+  <%= will_paginate @rides %> 
+  <%= render 'update_rides' %>
+</div>
 
 <ul class="rides">
   <%= render @rides %>
 </ul>
 
-<%= will_paginate %>

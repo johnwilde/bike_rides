@@ -8,7 +8,7 @@ gem 'rails', '3.1.0'
 gem 'sqlite3'
 gem "therubyracer"
 gem 'fusion_tables'
-gem 'will_paginate', '3.0.pre2'
+gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
 
 group :development do
