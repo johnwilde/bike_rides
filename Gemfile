@@ -10,6 +10,8 @@ gem "therubyracer"
 gem 'fusion_tables'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
+gem 'nifty-generators'
+gem 'omniauth'
 
 group :development do
   #gem 'rspec-rails', '2.6.1'

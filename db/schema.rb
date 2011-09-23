@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110920213630) do
+ActiveRecord::Schema.define(:version => 20110922235345) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -24,6 +24,14 @@ ActiveRecord::Schema.define(:version => 20110920213630) do
     t.float    "bb_sw_lon"
     t.float    "bb_ne_lat"
     t.float    "bb_ne_lon"
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
