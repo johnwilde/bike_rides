@@ -4,7 +4,8 @@ BikeRides2::Application.routes.draw do
       put 'updateall'
     end
   end
-  root :to  => "users#show"
+  
+  root :to  => "rides#index"
   match "/auth/google/callback"  => "sessions#create"
   match "/signout" => "sessions#destroy", :as => :signout
   get "rides/index"
