@@ -1,15 +1,6 @@
 BikeRides2::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
-  Rails.application.config.middleware.use OmniAuth::Builder do 
-    # you need a store for OpenID; (if you deploy on heroku you need Filesystem.new('./tmp') instead of Filesystem.new('/tmp'))
-    require 'openid/store/filesystem'
-
-    # generic openid
-    provider :openid, OpenID::Store::Filesystem.new('./tmp'), :name => 'openid'
-    provider :openid, OpenID::Store::Filesystem.new('./tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id'
-  end
-
   # In the development environment your application's code is reloaded on
   # every request.  This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.

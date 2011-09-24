@@ -15,6 +15,8 @@
 #  bb_ne_lon      :float
 #
 require 'geo_ruby'
+require 'gdata_plus'
+require 'nokogiri'
 
 class Ride < ActiveRecord::Base
   # make everything accessible
@@ -23,8 +25,18 @@ class Ride < ActiveRecord::Base
 
   validates :fusiontable_id, :presence  => true
 
-  def self.make_rides_from_fusiontables
+  def self.make_rides_from_fusiontables (user)
+    auth = get_authenticator(user)
+    # to just get tables: https://docs.google.com/feeds/default/private/full/-/table
     binding.pry
+    response = auth.client.get("https://docs.google.com/feeds/default/private/full")
+    feed=Nokogiri::XML(response.body)
+    # select on entry and resourceId (in the "gd" namespace )
+    res=feed.css("entry gd|resourceId")
+    # filter all table entries into an array 
+    tab = []
+    res.each{ |i| tab<<i if i.to_s =~ /table/}
+
     puts "Checking for new rides."
     ft=GData::Client::FusionTables.new; 
     config=YAML::load_file(File.join(File.dirname(__FILE__),'../../credentials.yml'))
@@ -36,6 +48,15 @@ class Ride < ActiveRecord::Base
       end
     end
 
+  end
+
+  def self.get_authenticator(user)
+    GDataPlus::Authenticator::OAuth.new(
+      :consumer_key => CONSUMER_KEY,
+      :consumer_secret => CONSUMER_SECRET,
+      :access_token => user.token,
+      :access_secret => user.secret
+    )
   end
 
   def self.make_ride_from_table(table)

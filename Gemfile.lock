@@ -58,6 +58,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.1.2)
+    daemons (1.0.10)
     erubis (2.7.0)
     execjs (1.2.6)
       multi_json (~> 1.0)
@@ -68,6 +69,11 @@ GEM
     fusion_tables (0.3.1)
       gdata_19 (>= 1.1.2)
     gdata_19 (1.1.3)
+    gdata_plus (0.1.0)
+      activesupport
+      oauth
+      typhoeus
+    gem_plugin (0.2.3)
     hike (1.2.1)
     i18n (0.6.0)
     jquery-rails (1.0.14)
@@ -84,6 +90,9 @@ GEM
     method_source (0.6.5)
       ruby_parser (>= 2.0.5)
     mime-types (1.16)
+    mongrel (1.2.0.pre2)
+      daemons (~> 1.0.10)
+      gem_plugin (~> 0.2.3)
     multi_json (1.0.3)
     multi_xml (0.4.0)
     multipart-post (1.1.3)
@@ -198,6 +207,9 @@ GEM
       polyglot (>= 0.3.1)
     turn (0.8.2)
       ansi (>= 1.2.2)
+    typhoeus (0.2.4)
+      mime-types
+      mime-types
     tzinfo (0.3.29)
     uglifier (1.0.3)
       execjs (>= 0.3.0)
@@ -213,7 +225,9 @@ DEPENDENCIES
   annotate!
   coffee-rails (~> 3.1.0)
   fusion_tables
+  gdata_plus
   jquery-rails
+  mongrel
   nifty-generators
   omniauth
   pg
