@@ -10,7 +10,6 @@ class RidesController < ApplicationController
 
   def index
     @rides = Ride.paginate(:page => params[:page], :per_page => 4)
-    @ride = Ride.new
   end
 
   def updateall

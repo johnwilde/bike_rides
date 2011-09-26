@@ -17,10 +17,11 @@ get "/" do
   authenticator = GDataPlus::Authenticator::OAuth.new(:consumer_key    => CONSUMER_KEY,
                                                       :consumer_secret => CONSUMER_SECRET)
   #request_token = authenticator.fetch_request_token(:scope => "https://picasaweb.google.com/data/", :oauth_callback => oauth_callback)
-request_token = authenticator.fetch_request_token(:scope => "https://docs.google.com/feeds/", :oauth_callback => oauth_callback)
+  #request_token = authenticator.fetch_request_token(:scope => "https://docs.google.com/feeds/", :oauth_callback => oauth_callback)
+  request_token = authenticator.fetch_request_token(:scope => "https://www.google.com/fusiontables/api/query", :oauth_callback => oauth_callback)
   session[:gdata_authenticator] = authenticator
 
-  redirect request_token.authorize_url
+    redirect request_token.authorize_url
 end
 
 # STEP #2: Exchange request token for access token when user is redirected back to your site
@@ -33,10 +34,15 @@ end
 # STEP #3: Make a signed request (fetch a list of Picasa albums in this case)
 get "/picasa_album_list" do
   authenticator = session[:gdata_authenticator]
-  binding.pry
+  #binding.pry
   #response = authenticator.client.get("https://picasaweb.google.com/data/feed/api/user/default")
-response = authenticator.client.get("https://docs.google.com/default/private/full")
-  feed = Nokogiri::XML(response.body)
-  album_titles = feed.xpath("//xmlns:entry/xmlns:title/text()").collect {|i| "#{i}"}
-  album_titles.collect {|title| "<li>#{title}</li>"}
+  #response = authenticator.client.get("https://docs.google.com/default/private/full")
+  response = authenticator.client("2.0").get("https://www.google.com/fusiontables/api/query?sql=SHOW+TABLES")
+  response.body.to_yaml
+
+  # use this to process a feed:
+  #feed = Nokogiri::XML(response.body)
+  #binding.pry
+  #album_titles = feed.xpath("//xmlns:entry/xmlns:title/text()").collect {|i| "#{i}"}
+  #album_titles.collect {|title| "<li>#{title}</li>"}
 end

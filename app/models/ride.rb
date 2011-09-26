@@ -21,26 +21,14 @@ require 'nokogiri'
 class Ride < ActiveRecord::Base
   # make everything accessible
   #attr_accessible 
-  
 
   validates :fusiontable_id, :presence  => true
 
   def self.make_rides_from_fusiontables (user)
-    auth = get_authenticator(user)
-    # to just get tables: https://docs.google.com/feeds/default/private/full/-/table
-    binding.pry
-    response = auth.client.get("https://docs.google.com/feeds/default/private/full")
-    feed=Nokogiri::XML(response.body)
-    # select on entry and resourceId (in the "gd" namespace )
-    res=feed.css("entry gd|resourceId")
-    # filter all table entries into an array 
-    tab = []
-    res.each{ |i| tab<<i if i.to_s =~ /table/}
-
-    puts "Checking for new rides."
-    ft=GData::Client::FusionTables.new; 
-    config=YAML::load_file(File.join(File.dirname(__FILE__),'../../credentials.yml'))
-    ft.clientlogin(config["google_username"], config["google_password"])
+    authenticator = get_authenticator(user)
+    gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")
+    ft=GData::Client::FusionTables.new
+    ft.auth_handler=authenticator
     tables=ft.show_tables
     tables.each do |table|
       if !Ride.find_by_fusiontable_id(table.id)
@@ -48,6 +36,7 @@ class Ride < ActiveRecord::Base
       end
     end
 
+    puts "Checking for new rides."
   end
 
   def self.get_authenticator(user)
@@ -65,7 +54,7 @@ class Ride < ActiveRecord::Base
     puts "Making ride #{table.id}"
     ride=Ride.create({:fusiontable_id  => table.id,
                       :ridedata  => geometry.to_s})
-    
+
     ride.compute_bounding_box()
   end
 
@@ -77,8 +66,8 @@ class Ride < ActiveRecord::Base
     data.each do |i|
       geo = GeoRuby::SimpleFeatures::Geometry::from_kml(i[:geometry])
       if geo.class==GeoRuby::SimpleFeatures::LineString and geo.count > max_count
-       max_segment=geo
-       max_count=geo.count
+        max_segment=geo
+        max_count=geo.count
       end
       tmp << geo
     end

@@ -7,12 +7,12 @@ gem 'rails', '3.1.0'
 
 # user mongrel web server to handle the large oauth requests
 gem 'mongrel'
-gem 'gdata_plus'
+gem 'gdata_plus', :git  => 'git://github.com/johnwilde/gdata_plus.git'
 
 gem 'jquery-rails'
 gem 'sqlite3'
 gem "therubyracer"
-gem 'fusion_tables'
+gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
 gem 'nifty-generators'
