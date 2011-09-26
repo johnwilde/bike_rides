@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110923211601) do
+ActiveRecord::Schema.define(:version => 20110926194047) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -24,7 +24,10 @@ ActiveRecord::Schema.define(:version => 20110923211601) do
     t.float    "bb_sw_lon"
     t.float    "bb_ne_lat"
     t.float    "bb_ne_lon"
+    t.integer  "user_id"
   end
+
+  add_index "rides", ["user_id", "created_at"], :name => "index_rides_on_user_id_and_created_at"
 
   create_table "users", :force => true do |t|
     t.string   "provider"
@@ -34,6 +37,8 @@ ActiveRecord::Schema.define(:version => 20110923211601) do
     t.datetime "updated_at"
     t.string   "token"
     t.string   "secret"
+    t.boolean  "admin",      :default => false
+    t.integer  "ride_id"
   end
 
 end

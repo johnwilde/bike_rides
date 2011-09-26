@@ -1,5 +1,9 @@
+
+
 class User < ActiveRecord::Base
-  def self.create_with_omniauth(auth)
+ has_many :rides, :dependent  => :destroy
+ 
+ def self.create_with_omniauth(auth)
     create! do |user|
       user.provider = auth["provider"]
       user.uid = auth["uid"]

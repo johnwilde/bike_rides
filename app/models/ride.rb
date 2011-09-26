@@ -14,6 +14,7 @@
 #  bb_ne_lat      :float
 #  bb_ne_lon      :float
 #
+
 require 'geo_ruby'
 require 'gdata_plus'
 require 'nokogiri'
@@ -21,18 +22,18 @@ require 'nokogiri'
 class Ride < ActiveRecord::Base
   # make everything accessible
   #attr_accessible 
-
+  belongs_to :user
   validates :fusiontable_id, :presence  => true
 
-  def self.make_rides_from_fusiontables (user)
+  def self.make_rides_from_fusiontables(user)
     authenticator = get_authenticator(user)
     gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")
     ft=GData::Client::FusionTables.new
     ft.auth_handler=authenticator
-    tables=ft.show_tables
+      tables=ft.show_tables
     tables.each do |table|
-      if !Ride.find_by_fusiontable_id(table.id)
-        make_ride_from_table(table)
+      if !find_by_fusiontable_id(table.id)
+        make_ride_from_table(table, user)
       end
     end
 
@@ -48,12 +49,12 @@ class Ride < ActiveRecord::Base
     )
   end
 
-  def self.make_ride_from_table(table)
+  def self.make_ride_from_table(table, user)
     geometry = table.select "geometry"
 
     puts "Making ride #{table.id}"
-    ride=Ride.create({:fusiontable_id  => table.id,
-                      :ridedata  => geometry.to_s})
+    ride=user.rides.create({:fusiontable_id  => table.id,
+                            :ridedata  => geometry.to_s})
 
     ride.compute_bounding_box()
   end

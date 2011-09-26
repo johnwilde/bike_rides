@@ -5,8 +5,6 @@ gem 'rails', '3.1.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-# user mongrel web server to handle the large oauth requests
-gem 'mongrel'
 gem 'gdata_plus', :git  => 'git://github.com/johnwilde/gdata_plus.git'
 
 gem 'jquery-rails'
@@ -15,10 +13,12 @@ gem "therubyracer"
 gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
-gem 'nifty-generators'
 gem 'omniauth'
 
 group :development do
+  # user mongrel web server to handle the large oauth requests
+  gem 'mongrel'
+  gem 'nifty-generators'
   #gem 'rspec-rails', '2.6.1'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'pry'
