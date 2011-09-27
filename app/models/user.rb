@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id         :integer         not null, primary key
+#  provider   :string(255)
+#  uid        :string(255)
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  token      :string(255)
+#  secret     :string(255)
+#  admin      :boolean         default(FALSE)
+#  ride_id    :integer
+#
+
 
 
 class User < ActiveRecord::Base

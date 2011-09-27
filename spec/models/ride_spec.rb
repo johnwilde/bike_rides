@@ -13,6 +13,7 @@
 #  bb_sw_lon      :float
 #  bb_ne_lat      :float
 #  bb_ne_lon      :float
+#  user_id        :integer
 #
 
 require 'spec_helper'

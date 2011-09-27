@@ -1,6 +1,14 @@
 require 'openid/store/filesystem'
-CONSUMER_SECRET =  'nGrCLyH_rUpbrXSe3U1ZMsVT'
-CONSUMER_KEY = 'johnwilde.us'
+
+if Rails.env == 'production'
+  CONSUMER_SECRET =  ENV['OAUTH_SECRET']
+  CONSUMER_KEY = ENV['OAUTH_KEY']
+else
+  config = YAML::load_file(File.join(File.dirname(__FILE__), 'credentials.yml'))
+  CONSUMER_SECRET = config['secret'] 
+  CONSUMER_KEY = config['key']
+end
+
 # :scope => ["https://docs.google.com/feeds/", "https://spreadsheets.google.com/feeds/"], 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_hybrid, OpenID::Store::Filesystem.new('/tmp'), 

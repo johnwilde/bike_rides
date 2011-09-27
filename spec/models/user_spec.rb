@@ -2,21 +2,16 @@
 #
 # Table name: users
 #
-#  id                     :integer         not null, primary key
-#  encrypted_password     :string(128)     default(""), not null
-#  reset_password_token   :string(255)
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer         default(0)
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
-#  created_at             :datetime
-#  updated_at             :datetime
-#  username               :string(255)
-#  ride_id                :integer
-#  email                  :string(255)
+#  id         :integer         not null, primary key
+#  provider   :string(255)
+#  uid        :string(255)
+#  name       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#  token      :string(255)
+#  secret     :string(255)
+#  admin      :boolean         default(FALSE)
+#  ride_id    :integer
 #
 
 require 'spec_helper'
