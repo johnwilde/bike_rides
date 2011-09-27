@@ -1,4 +1,4 @@
-require 'geo_ruby'
+require 'will_paginate/array'
 
 class RidesController < ApplicationController
   def new
@@ -9,7 +9,8 @@ class RidesController < ApplicationController
   end
 
   def index
-    @rides = Ride.paginate(:page => params[:page], :per_page => 4)
+    @results = Ride.search(params)
+    @rides = @results.paginate(:page => params[:page], :per_page => 4)
   end
 
   def updateall

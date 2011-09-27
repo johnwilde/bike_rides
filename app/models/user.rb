@@ -27,4 +27,5 @@ class User < ActiveRecord::Base
       user.email = auth["user_info"]["email"]
     end
   end
+
 end

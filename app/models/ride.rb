@@ -27,6 +27,14 @@ class Ride < ActiveRecord::Base
   validates :fusiontable_id, :presence  => true
   default_scope :order  => 'rides.created_at DESC'
 
+  def self.search(params)
+    if params[:user_id]
+      where(:user_id => params[:user_id])
+    else
+      find(:all)
+    end
+  end
+  
   def self.make_rides_from_fusiontables(user)
     authenticator = get_authenticator(user)
     gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")

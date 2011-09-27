@@ -3,18 +3,14 @@
     <td class="main">
       <h1>
         <%= @user.name %>
-        <%= render 'shared/update_rides' %>
       </h1>
+      <h4>Coming soon: my ride statistics</h4>  
       <% if @user.rides.any? %>
-        <table class="rides" summary="Rides:">
-          <%= render @rides %>
-        </table>
-        <%= will_paginate @rides%>
+        <%= link_to "My Rides", rides_path + "?" + "user_id=#{@user.id}"%>
       <% end %>
     </td>
     <td class="sidebar round">
       <strong>Name</strong> <%= @user.name %><br />
-      <strong>URL</strong>  <%= link_to user_path(@user), @user %><br />
       <strong>Rides</strong> <%= @user.rides.count %>
     </td>
   </tr>
