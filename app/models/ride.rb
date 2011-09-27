@@ -25,6 +25,7 @@ class Ride < ActiveRecord::Base
   #attr_accessible 
   belongs_to :user
   validates :fusiontable_id, :presence  => true
+  default_scope :order  => 'rides.created_at DESC'
 
   def self.make_rides_from_fusiontables(user)
     authenticator = get_authenticator(user)

@@ -18,6 +18,30 @@
 
 require 'spec_helper'
 
-describe Ride do
-  pending "add some examples to (or delete) #{__FILE__}"
+describe "Ride" do
+  
+  before(:each) do
+    @user = Factory(:user)
+    @attr = { :fusiontable_id  => "123456" }
+  end
+  
+  it "should create a new instance given valid attributes" do
+    @user.rides.create!(@attr)
+  end
+  
+  describe "user associations" do
+    before(:each) do
+      @ride = @user.rides.create(@attr)
+    end
+    
+    it "should have a user attribute" do
+      @ride.should respond_to(:user)
+    end
+
+    it "should have the right associated user" do
+      @ride.user_id.should == @user.id
+      @ride.user.should == @user
+    end
+
+  end
 end

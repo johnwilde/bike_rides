@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110926194047) do
+ActiveRecord::Schema.define(:version => 20110927193537) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(:version => 20110926194047) do
     t.string   "secret"
     t.boolean  "admin",      :default => false
     t.integer  "ride_id"
+    t.string   "email"
   end
 
 end

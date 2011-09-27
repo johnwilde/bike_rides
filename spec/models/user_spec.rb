@@ -20,9 +20,7 @@ describe "User" do
   before(:each) do
     @attr = {
       :username  => "John",
-      :email  => "",
-      :password  => "foo",
-      :password_confirmation  => "foo"
+      :email  => "blah@mail.com",
     }
   end
 

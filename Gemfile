@@ -19,14 +19,17 @@ group :development do
   # user mongrel web server to handle the large oauth requests
   gem 'mongrel'
   gem 'nifty-generators'
-  #gem 'rspec-rails', '2.6.1'
+  gem 'rspec-rails', '2.6.1'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
+  gem 'faker', '0.3.1'
   gem 'pry'
 end
 
 group :test do
   # Pretty printed test output
   gem 'turn', :require => false
+  gem 'spork', '0.9.0.rc5'
+  gem 'factory_girl_rails', '1.0'
 end
 
 group :production do
