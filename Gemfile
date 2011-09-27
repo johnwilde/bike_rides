@@ -5,16 +5,32 @@ gem 'rails', '3.1.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+gem 'gdata_plus', :git  => 'git://github.com/johnwilde/gdata_plus.git'
+
+gem 'jquery-rails'
 gem 'sqlite3'
 gem "therubyracer"
-gem 'fusion_tables'
+gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
+gem 'omniauth'
 
 group :development do
+  # user mongrel web server to handle the large oauth requests
+  gem 'mongrel'
+  gem 'nifty-generators'
   #gem 'rspec-rails', '2.6.1'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'pry'
+end
+
+group :test do
+  # Pretty printed test output
+  gem 'turn', :require => false
+end
+
+group :production do
+  gem 'pg'
 end
 
 # Gems used only for assets and not required
@@ -25,7 +41,6 @@ group :assets do
   gem 'uglifier'
 end
 
-gem 'jquery-rails'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -36,11 +51,3 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
-group :test do
-  # Pretty printed test output
-  gem 'turn', :require => false
-end
-
-group :production do
-  gem 'pg'
-end

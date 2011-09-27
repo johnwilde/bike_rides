@@ -14,37 +14,48 @@
 #  bb_ne_lat      :float
 #  bb_ne_lon      :float
 #
+
 require 'geo_ruby'
+require 'gdata_plus'
+require 'nokogiri'
 
 class Ride < ActiveRecord::Base
   # make everything accessible
   #attr_accessible 
-  
-
+  belongs_to :user
   validates :fusiontable_id, :presence  => true
 
-  def self.make_rides_from_fusiontables
-    binding.pry
-    puts "Checking for new rides."
-    ft=GData::Client::FusionTables.new; 
-    config=YAML::load_file(File.join(File.dirname(__FILE__),'../../credentials.yml'))
-    ft.clientlogin(config["google_username"], config["google_password"])
-    tables=ft.show_tables
+  def self.make_rides_from_fusiontables(user)
+    authenticator = get_authenticator(user)
+    gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")
+    ft=GData::Client::FusionTables.new
+    ft.auth_handler=authenticator
+      tables=ft.show_tables
     tables.each do |table|
-      if !Ride.find_by_fusiontable_id(table.id)
-        make_ride_from_table(table)
+      if !find_by_fusiontable_id(table.id)
+        make_ride_from_table(table, user)
       end
     end
 
+    puts "Checking for new rides."
   end
 
-  def self.make_ride_from_table(table)
+  def self.get_authenticator(user)
+    GDataPlus::Authenticator::OAuth.new(
+      :consumer_key => CONSUMER_KEY,
+      :consumer_secret => CONSUMER_SECRET,
+      :access_token => user.token,
+      :access_secret => user.secret
+    )
+  end
+
+  def self.make_ride_from_table(table, user)
     geometry = table.select "geometry"
 
     puts "Making ride #{table.id}"
-    ride=Ride.create({:fusiontable_id  => table.id,
-                      :ridedata  => geometry.to_s})
-    
+    ride=user.rides.create({:fusiontable_id  => table.id,
+                            :ridedata  => geometry.to_s})
+
     ride.compute_bounding_box()
   end
 
@@ -56,8 +67,8 @@ class Ride < ActiveRecord::Base
     data.each do |i|
       geo = GeoRuby::SimpleFeatures::Geometry::from_kml(i[:geometry])
       if geo.class==GeoRuby::SimpleFeatures::LineString and geo.count > max_count
-       max_segment=geo
-       max_count=geo.count
+        max_segment=geo
+        max_count=geo.count
       end
       tmp << geo
     end
