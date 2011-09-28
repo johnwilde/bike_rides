@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110927193537) do
+ActiveRecord::Schema.define(:version => 20110928044942) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(:version => 20110927193537) do
     t.float    "bb_ne_lat"
     t.float    "bb_ne_lon"
     t.integer  "user_id"
+    t.text     "description"
   end
 
   add_index "rides", ["user_id", "created_at"], :name => "index_rides_on_user_id_and_created_at"

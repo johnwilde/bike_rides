@@ -1,8 +1,8 @@
 BikeRides2::Application.routes.draw do
+  resources :rides, :only  => [:show, :index, :destroy]
+  # this also creates the routes I want to exclude above, don't know why...
   resources :rides do 
-    collection do
-      put 'updateall'
-    end
+    put 'updateall', :on  => :collection
   end
 
   resources :users

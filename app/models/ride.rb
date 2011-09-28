@@ -34,13 +34,13 @@ class Ride < ActiveRecord::Base
       find(:all)
     end
   end
-  
+
   def self.make_rides_from_fusiontables(user)
     authenticator = get_authenticator(user)
     gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")
     ft=GData::Client::FusionTables.new
     ft.auth_handler=authenticator
-      tables=ft.show_tables
+    tables=ft.show_tables
     tables.each do |table|
       if !find_by_fusiontable_id(table.id)
         make_ride_from_table(table, user)
@@ -61,10 +61,23 @@ class Ride < ActiveRecord::Base
 
   def self.make_ride_from_table(table, user)
     geometry = table.select "geometry"
+    descriptions = table.select "description"
+
+    text=""
+    descriptions.each do |d|
+      if !d.nil?
+        ptag=Nokogiri::HTML(d[:description]).css("p")
+        ptag.each do |p|
+          text += p.text + '\n'
+        end
+      end
+    end
 
     puts "Making ride #{table.id}"
+    puts "Has text:" + text
     ride=user.rides.create({:fusiontable_id  => table.id,
-                            :ridedata  => geometry.to_s})
+                            :ridedata  => geometry.to_s,
+                            :description  => text})
 
     ride.compute_bounding_box()
   end

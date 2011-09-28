@@ -1,5 +1,7 @@
 <table class="ride" cellpadding="10">
-
+  <%= form_for ride, :method => 'delete' do |f| %>
+    <%= f.submit :value => "Delete" %>
+  <% end %>
 <tr>
   <td>
   <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 
@@ -7,6 +9,7 @@
   </td>
   <td>
     <%= link_to ride.fusiontable_id, ride %>
+    <%= ride.description %>
   </td>
 </tr>
 
