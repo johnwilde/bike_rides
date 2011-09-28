@@ -2,18 +2,31 @@
 #
 # Table name: rides
 #
-#  id             :integer         not null, primary key
-#  fusiontable_id :integer
-#  created_at     :datetime
-#  updated_at     :datetime
-#  ridedata       :text
-#  centroid_lat   :float
-#  centroid_lon   :float
-#  bb_sw_lat      :float
-#  bb_sw_lon      :float
-#  bb_ne_lat      :float
-#  bb_ne_lon      :float
-#  user_id        :integer
+#  id               :integer         not null, primary key
+#  fusiontable_id   :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  ridedata         :text
+#  centroid_lat     :float
+#  centroid_lon     :float
+#  bb_sw_lat        :float
+#  bb_sw_lon        :float
+#  bb_ne_lat        :float
+#  bb_ne_lon        :float
+#  user_id          :integer
+#  description      :text
+#  total_distance   :float
+#  total_time       :integer
+#  moving_time      :integer
+#  avg_speed        :float
+#  avg_moving_speed :float
+#  max_speed        :float
+#  min_elevation    :float
+#  max_elevation    :float
+#  elevation_gain   :float
+#  max_grade        :float
+#  min_grade        :float
+#  recorded         :datetime
 #
 
 require 'geo_ruby'
@@ -21,6 +34,7 @@ require 'gdata_plus'
 require 'nokogiri'
 
 class Ride < ActiveRecord::Base
+
   # make everything accessible
   #attr_accessible 
   belongs_to :user
@@ -63,23 +77,14 @@ class Ride < ActiveRecord::Base
     geometry = table.select "geometry"
     descriptions = table.select "description"
 
-    text=""
-    descriptions.each do |d|
-      if !d.nil?
-        ptag=Nokogiri::HTML(d[:description]).css("p")
-        ptag.each do |p|
-          text += p.text + '\n'
-        end
-      end
-    end
-
     puts "Making ride #{table.id}"
-    puts "Has text:" + text
     ride=user.rides.create({:fusiontable_id  => table.id,
-                            :ridedata  => geometry.to_s,
-                            :description  => text})
+                            :ridedata  => geometry.to_s})
+
+    ride.set_ride_attributes(descriptions)
 
     ride.compute_bounding_box()
+    puts "Created ride with duration: #{ride.moving_time}"
   end
 
   def compute_bounding_box()
@@ -105,5 +110,62 @@ class Ride < ActiveRecord::Base
                            :bb_ne_lat  =>  bb[1].lat,
                            :bb_ne_lon => bb[1].lon)
   end
+
+  def set_ride_attributes(descriptions)
+    descriptions.each do |d|
+      if !d.nil?
+        ptag=Nokogiri::HTML(d[:description]).css("p")
+        ptag.each do |p|
+          if ( !p.nil? and p.text =~ /^Total Distance/) 
+            set_attributes_from_summary_text(p.text)
+          end
+        end
+      end
+    end
+  end
+
+  def set_attributes_from_summary_text(text)
+    # remove stuff inside parens
+    text.gsub!(/\([^)]*\)/, "")
+    ["Total Distance:","Total Time:","Moving Time:",
+     "Average Speed:","Average Moving Speed:",
+     "Max Speed:","Min Elevation:","Max Elevation:",
+     "Elevation Gain:","Max Grade:","Min Grade:",
+     "Recorded:","Activity type:"].each do |s|
+       text.gsub!(s,",")
+     end
+    ["km/h", "%", "km", "m"].each {|s| text.gsub!(s,"")}
+  
+    text = text.split(",")
+
+    attr={ :total_distance  => text[1],
+           :total_time  => Ride.timestring_to_sec(text[2]),
+           :moving_time  => Ride.timestring_to_sec(text[3]),
+           :avg_speed  => text[4],
+           :avg_moving_speed => text[5],
+           :max_speed => text[6],
+           :min_elevation => text[7],
+           :max_elevation => text[8],
+           :elevation_gain => text[9],
+           :max_grade => text[10],
+           :min_grade => text[11],
+           :recorded => text[12].to_datetime}
+    update_attributes!(attr)
+  
+  end
+
+  def self.timestring_to_sec(time)
+    sec=0
+    mult=1
+    first_pass=true
+    t=time.split(":").reverse!
+    t.each do |v|
+      mult*=60 unless first_pass 
+      sec+=(v.to_i)*mult
+      first_pass=false
+    end
+    return sec
+  end
+
 
 end

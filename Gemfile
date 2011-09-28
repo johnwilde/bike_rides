@@ -30,6 +30,7 @@ group :test do
   gem 'turn', :require => false
   gem 'spork', '0.9.0.rc5'
   gem 'factory_girl_rails', '1.0'
+  gem 'pry'
 end
 
 group :production do

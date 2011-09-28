@@ -1,5 +1,5 @@
 Factory.define :user do |user|
-  user.username                  "John A Wilde"
+  user.name                  "John A Wilde"
   user.email                 "mhartl@example.com"
 end
 

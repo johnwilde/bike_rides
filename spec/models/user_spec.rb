@@ -12,6 +12,7 @@
 #  secret     :string(255)
 #  admin      :boolean         default(FALSE)
 #  ride_id    :integer
+#  email      :string(255)
 #
 
 require 'spec_helper'
