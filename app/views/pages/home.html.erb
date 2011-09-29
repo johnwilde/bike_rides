@@ -1,12 +1,14 @@
-<% if signed_in? %>
- redirect_to user_path(current_user)
-<% else %>
-
 <h1>Bike Ride Viewer</h1>
+
+<div class=signup>
+  
 <p>
-  For viewing, searching and annotating your MyTracks rides on the web.
+    For viewing, searching and annotating your <%= link_to "My Tracks", "http://mytracks.appspot.com/" %> rides on the web.
+</p>
+<p>
+  This site works with rides that have been exported from MyTracks into Google Fusion Tables.
+  If you sign up, your ride data will be copied into our database allowing you to annotate and browse your ride history.
+  For example, here are <%= link_to "my rides", rides_path(:user_id => 1) %>.</br>
 </p>
 
-<%= link_to "Sign in with Google", "/auth/google_hybrid" %>
-
-<% end %>
+</div>
