@@ -16,7 +16,6 @@
 #
 
 
-
 class User < ActiveRecord::Base
  has_many :rides, :dependent  => :destroy
  

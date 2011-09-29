@@ -1,10 +1,4 @@
-<%= form_tag rides_path, :method => 'get' do %>
-  <p>
-    <%= text_field_tag :user_id, params[:user_id] %>
-    <%= submit_tag "User ID", :name => nil %>
-  </p>
-<% end %>
-
+<% content_for :head do %>
 <div class="digg_pagination">
   <div class="page_info">
     <%= page_entries_info @rides %>
@@ -12,9 +6,14 @@
   <%= will_paginate @rides %> 
   <%= render 'shared/update_rides' %>
 </div>
+<% end %>
 
+<%= form_tag rides_path, :method => 'get' do %>
+  <p>
+    <%= text_field_tag :user_id, params[:user_id] %>
+    <%= submit_tag "User ID", :name => nil %>
+  </p>
+<% end %>
 
-<ul class="rides">
-  <%= render @rides %>
-</ul>
+<%= render @rides %>
 

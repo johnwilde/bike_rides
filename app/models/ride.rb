@@ -34,12 +34,11 @@ require 'gdata_plus'
 require 'nokogiri'
 
 class Ride < ActiveRecord::Base
-
   # make everything accessible
   #attr_accessible 
   belongs_to :user
   validates :fusiontable_id, :presence  => true
-  default_scope :order  => 'rides.created_at DESC'
+  default_scope :order  => 'rides.recorded DESC'
 
   def self.search(params)
     if params[:user_id]
@@ -116,8 +115,12 @@ class Ride < ActiveRecord::Base
       if !d.nil?
         ptag=Nokogiri::HTML(d[:description]).css("p")
         ptag.each do |p|
-          if ( !p.nil? and p.text =~ /^Total Distance/) 
-            set_attributes_from_summary_text(p.text)
+          if ( !p.nil? )
+            if p.text =~ /^Total Distance/ 
+              set_attributes_from_summary_text(p.text)
+            elsif (p.text =~ /^Created by My Tracks/) != 0
+              update_attribute(:description, p.text)
+            end
           end
         end
       end
@@ -157,12 +160,10 @@ class Ride < ActiveRecord::Base
   def self.timestring_to_sec(time)
     sec=0
     mult=1
-    first_pass=true
     t=time.split(":").reverse!
     t.each do |v|
-      mult*=60 unless first_pass 
       sec+=(v.to_i)*mult
-      first_pass=false
+      mult*=60
     end
     return sec
   end

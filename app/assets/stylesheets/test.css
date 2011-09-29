@@ -3,7 +3,28 @@ div.ft_map{
   width: 400px;
 }
 table.ride{
+  padding: 10px 10px 10px 0px;
 }
+td.notes{
+  padding-left: 20px; 
+}
+td.ride-stats{
+  vertical-align: top;
+  padding-top: 20px;
+}
+td.stat-label{
+  font-weight: bold;
+}
+td.stat-value{
+  text-align: right;
+}
+td.stat-units{
+  padding-left: 5px;
+}
+table.ride-stats{
+  
+}
+
 .digg_pagination{
-  float:right
+  float:right; 
 }

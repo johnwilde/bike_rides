@@ -1,12 +1,8 @@
 
 class SessionsController < ApplicationController
   def create
-    puts "CREATING SESSION"
-    auth = request.env["omniauth.auth"]
-    user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
-    user.update_attributes(:token  => auth["credentials"]["token"], :secret  => auth["credentials"]["secret"])
-    session[:user_id] = user.id
-    redirect_to root_url, :notice => "Signed in!"
+    sign_in
+    redirect_to user_path(current_user), :notice => "Signed in!"
   end
 
 
@@ -16,8 +12,7 @@ class SessionsController < ApplicationController
 
   
   def destroy
-    puts "DESTROYING SESSION"
-    session[:user_id] = nil
+    sign_out
     redirect_to root_url, :notice => "Signed out!"
   end
 end

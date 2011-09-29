@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_filter :authenticate, :except => [:index, :show, :new, :create]
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
   
@@ -38,8 +37,6 @@ class UsersController < ApplicationController
     if @user.update_attributes(params[:user])
       redirect_to @user, :flash => { :success => "Profile updated." }
     else
-      @title = "Edit user"
-      render 'edit'
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110928193609) do
+ActiveRecord::Schema.define(:version => 20110929034455) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(:version => 20110928193609) do
     t.float    "max_grade"
     t.float    "min_grade"
     t.datetime "recorded"
+    t.text     "private_description"
   end
 
   add_index "rides", ["user_id", "created_at"], :name => "index_rides_on_user_id_and_created_at"
@@ -50,9 +51,10 @@ ActiveRecord::Schema.define(:version => 20110928193609) do
     t.datetime "updated_at"
     t.string   "token"
     t.string   "secret"
-    t.boolean  "admin",      :default => false
+    t.boolean  "admin",            :default => false
     t.integer  "ride_id"
     t.string   "email"
+    t.boolean  "use_metric_units"
   end
 
 end

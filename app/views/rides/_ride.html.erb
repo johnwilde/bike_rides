@@ -1,15 +1,53 @@
-<table class="ride" cellpadding="10">
-  <%= form_for ride, :method => 'delete' do |f| %>
-    <%= f.submit :value => "Delete" %>
-  <% end %>
+<table class="ride" >
 <tr>
   <td>
+    <%= ride.recorded.getlocal.to_s(:ride_time) %>
   <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 
     lat="<%=ride.centroid_lat%>" lon="<%=ride.centroid_lon%>" sw_lat="<%=ride.bb_sw_lat%>" sw_lon="<%=ride.bb_sw_lon%>" ne_lat="<%=ride.bb_ne_lat%>" ne_lon="<%=ride.bb_ne_lon%>"></div>
   </td>
-  <td>
-    <%= link_to ride.fusiontable_id, ride %>
-    <%= ride.moving_time %>
+  <td class="notes">
+    <% if !current_user.nil? and (current_user.id == ride.user_id) %>
+      <%= form_for ride  do |f| %>
+        <%= f.label :description, "Public notes:" %><br/>
+        <%= f.text_area :description, :cols => 50, :rows  => 6 %><br/>
+        <%= f.label :private_description, "Private notes:" %><br/>
+        <%= f.text_area :private_description, :cols => 50, :rows  => 6 %><br/>
+        <%= f.submit :value => "Save", :method => :put %>
+        <%= f.submit :value => "Delete", :method  => :delete %>
+      <% end %>
+    <% else %>
+
+      <%= text_area_tag "description", ride.description, :cols => 50, :rows => 6, :readonly => true %>
+    <% end %>
+  </td>
+  <td class="ride-stats" >
+    <table class="ride-stats">
+      <tr>
+        <td class="stat-label">Total distance</td>
+        <td class="stat-value"><%= ride.total_distance %></td>
+        <td class="stat-units"><%=km_units%></td> 
+      </tr>
+      <tr>
+        <td class="stat-label">Moving time</td>
+        <td class="stat-value"><%= moving_time_hm(ride)%></td>
+        <td class="stat-units">hr:min</td>
+      </tr>
+      <tr>
+        <td class="stat-label">Avg speed</td>
+        <td class="stat-value"><%= ride.avg_moving_speed %></td>
+        <td class="stat-units"><%=speed_units%></td> 
+      </tr>
+      <tr>
+        <td class="stat-label">Max speed</td>
+        <td class="stat-value"><%= ride.max_speed %></td>
+        <td class="stat-units"><%=speed_units%></td> 
+      </tr>
+      <tr>
+        <td class="stat-label">Elevation gain</td>
+        <td class="stat-value"><%= ride.elevation_gain %></td>
+        <td class="stat-units"> <%= m_units %> </td> 
+      </tr>
+    </table>
   </td>
 </tr>
 
