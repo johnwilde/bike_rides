@@ -1,3 +1,2 @@
-<%= form_for :ride, { :method  => 'put', :url  => updateall_rides_path(:ride) } do |f| %>
-  <div class="actions"><%= f.submit "Update Rides" %></div>
-<% end %>
+<%= button_to "Update Rides", { :action => 'updateall' }, :method => :put %>
+

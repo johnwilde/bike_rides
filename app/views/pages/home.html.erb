@@ -1,0 +1,12 @@
+<% if signed_in? %>
+ redirect_to user_path(current_user)
+<% else %>
+
+<h1>Bike Ride Viewer</h1>
+<p>
+  For viewing, searching and annotating your MyTracks rides on the web.
+</p>
+
+<%= link_to "Sign in with Google", "/auth/google_hybrid" %>
+
+<% end %>

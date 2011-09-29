@@ -1,13 +1,13 @@
 BikeRides2::Application.routes.draw do
-  resources :rides, :only  => [:show, :index, :destroy, :update]
   # this also creates the routes I want to exclude above, don't know why...
   resources :rides do 
     put 'updateall', :on  => :collection
   end
+  resources :rides, :only  => [:show, :index, :destroy, :update]
 
   resources :users
 
-  root :to  => "users#index"
+  root :to  => "pages#home"
   match "/auth/:provider/callback"  => "sessions#create"
   match "/auth/failure"  => "sessions#fail"
   match "/signout" => "sessions#destroy", :as => :signout

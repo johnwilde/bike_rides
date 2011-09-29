@@ -31,6 +31,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 - Pass the necessary inputs to the javascript code by setting HTML attributes in the `<div>` element where the map will be inserted.
 
 ## General Resources ##
+<http://ruby.railstutorial.org/>
 <http://railscasts.com/episodes/37-simple-search-form?autoplay=true>  
 <http://railscasts.com/episodes/213-calendars?autoplay=true>  
 <http://railscasts.com/episodes/174-pagination-with-ajax>  
