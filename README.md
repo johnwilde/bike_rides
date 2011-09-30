@@ -66,4 +66,4 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 
 ## Other
 <https://github.com/rstacruz/nakedpaper/tree/> (how to set environment variables on Heroku)  
-
+<https://github.com/jchunky/table_builder> (An updated version of table\_builder that works on 3.1)

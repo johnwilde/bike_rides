@@ -14,6 +14,7 @@ gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
 gem 'omniauth'
+gem 'table_builder', '0.0.3', :git => 'git://github.com/jchunky/table_builder.git' 
 
 group :development do
   # user mongrel web server to handle the large oauth requests

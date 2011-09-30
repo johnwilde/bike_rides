@@ -13,10 +13,8 @@
         <%= f.label :private_description, "Private notes:" %><br/>
         <%= f.text_area :private_description, :cols => 50, :rows  => 6 %><br/>
         <%= f.submit :value => "Save", :method => :put %>
-        <%= f.submit :value => "Delete", :method  => :delete %>
       <% end %>
     <% else %>
-
       <%= text_area_tag "description", ride.description, :cols => 50, :rows => 6, :readonly => true %>
     <% end %>
   </td>
@@ -24,30 +22,33 @@
     <table class="ride-stats">
       <tr>
         <td class="stat-label">Total distance</td>
-        <td class="stat-value"><%= ride.total_distance %></td>
+        <td class="stat-value"><%= number_with_precision(total_distance(ride), :significant => true) %></td>
         <td class="stat-units"><%=km_units%></td> 
       </tr>
       <tr>
         <td class="stat-label">Moving time</td>
-        <td class="stat-value"><%= moving_time_hm(ride)%></td>
+        <td class="stat-value"><%= number_with_precision(moving_time_hm(ride), :significant => true)%></td>
         <td class="stat-units">hr:min</td>
       </tr>
       <tr>
         <td class="stat-label">Avg speed</td>
-        <td class="stat-value"><%= ride.avg_moving_speed %></td>
+        <td class="stat-value"><%= number_with_precision(avg_moving_speed(ride), :significant => true) %></td>
         <td class="stat-units"><%=speed_units%></td> 
       </tr>
       <tr>
         <td class="stat-label">Max speed</td>
-        <td class="stat-value"><%= ride.max_speed %></td>
+        <td class="stat-value"><%= number_with_precision(max_speed(ride), :significant => true) %></td>
         <td class="stat-units"><%=speed_units%></td> 
       </tr>
       <tr>
         <td class="stat-label">Elevation gain</td>
-        <td class="stat-value"><%= ride.elevation_gain %></td>
+        <td class="stat-value"><%= number_with_precision(elevation_gain(ride), :significant => true) %></td>
         <td class="stat-units"> <%= m_units %> </td> 
       </tr>
     </table>
+    <% if !current_user.nil? and (current_user.id == ride.user_id) %>
+      <%= button_to "Delete Ride", { :action => 'destroy', :id => ride.id}, :method => :delete %>
+    <% end %>
   </td>
 </tr>
 

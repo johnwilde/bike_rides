@@ -1,25 +1,28 @@
 <table class="profile" summary="Profile information">
   <tr>
     <td class="main">
-      <h1>
-        <%= @user.name %>
-      </h1>
-      <h4>Coming soon: my ride statistics</h4>  
+
+      <%= render 'shared/ride_calendar' %>
+
       <% if @user.rides.any? %>
         <%= link_to "All My Rides", rides_path + "?" + "user_id=#{@user.id}"%>
       <% end %>
-    <% if current_user?(@user) %>
-      <%= form_for @user do |f| %>
-        <%= f.label "Use Metric Units" %>
-        <%= check_box("user", "use_metric_units") %>
-        <%= f.submit %>
+      <% if current_user?(@user) %>
+        <%= form_for @user do |f| %>
+          <%= f.label "Use Metric Units" %>
+          <%= check_box("user", "use_metric_units") %>
+          <%= f.submit %>
+        <% end %>
       <% end %>
-    <% end %>
     </td>
     <td class="sidebar round">
       <strong>Name</strong> <%= @user.name %><br />
       <strong>Rides</strong> <%= @user.rides.count %>
-    </td>
-  </tr>
+
+      <% if current_user?(@user) %>
+        <%= render 'shared/update_rides' %>
+      <% end %>
+  </td>
+</tr>
 </table>
 

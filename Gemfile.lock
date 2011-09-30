@@ -5,6 +5,12 @@ GIT
     annotate (2.4.1.beta1)
 
 GIT
+  remote: git://github.com/jchunky/table_builder.git
+  revision: 861e57bc1c1cddcf877db950fb400226be15ea71
+  specs:
+    table_builder (0.0.3)
+
+GIT
   remote: git://github.com/johnwilde/fusion_tables.git
   revision: 25cf6f3f68d8d9c8c656b5e14bc26f1b3e9b052f
   specs:
@@ -269,6 +275,7 @@ DEPENDENCIES
   sass-rails (~> 3.1.0)
   spork (= 0.9.0.rc5)
   sqlite3
+  table_builder (= 0.0.3)!
   therubyracer
   turn
   uglifier

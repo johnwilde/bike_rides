@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
   before_filter :correct_user, :only => [:edit, :update]
   before_filter :admin_user,   :only => :destroy
   
@@ -9,8 +10,10 @@ class UsersController < ApplicationController
   
   def show
     @user = User.find(params[:id])
-    @rides = @user.rides.paginate(:page => params[:page])
     @title = @user.name
+
+    @date = params[:month] ? Date.parse(params[:month]) : Date.today
+    @rides = @user.rides
   end
 
   def new

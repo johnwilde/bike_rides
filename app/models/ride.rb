@@ -83,6 +83,7 @@ class Ride < ActiveRecord::Base
     ride.set_ride_attributes(descriptions)
 
     ride.compute_bounding_box()
+    binding.pry
     puts "Created ride with duration: #{ride.moving_time}"
   end
 

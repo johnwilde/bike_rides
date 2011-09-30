@@ -1,3 +1,3 @@
 <% if signed_in? %>
-<%= button_to "Update Rides", { :action => 'updateall' }, :method => :put %>
+  <%= button_to "Update Rides", { :action => 'updateall', :controller => 'rides' }, :method => :put %>
 <% end %>

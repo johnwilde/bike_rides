@@ -4,27 +4,15 @@ module RidesHelper
   M2FT = 3.280
 
   def km_units
-    if use_metric
-      "km"
-    else
-      "mi"
-    end
+    use_metric ?  "km" :  "mi"
   end
 
   def m_units
-    if use_metric
-      "m"
-    else
-      "ft"
-    end
+    use_metric ?  "m" :  "ft"
   end
 
   def speed_units
-    if use_metric
-      "km/hr"
-    else
-      "mi/hr"
-    end
+    use_metric ?  "km/hr" :  "mi/hr"
   end
 
   def moving_time_hm(ride)
@@ -37,43 +25,23 @@ module RidesHelper
   end
 
   def use_metric
-    if signed_in?
-      current_user.use_metric_units
-    else
-      true
-    end
+    signed_in? ? current_user.use_metric_units : true
   end
 
-  def total_distance
-    if use_metric
-      total_distance
-    else
-      total_distance*KM2MI
-    end
+  def total_distance(ride)
+    use_metric ? ride.total_distance : ride.total_distance*KM2MI
   end
 
-  def avg_moving_speed
-    if use_metric
-      avg_moving_speed
-    else
-      avg_moving_speed*KM2MI
-    end
+  def avg_moving_speed(ride)
+    use_metric ? ride.avg_moving_speed : ride.avg_moving_speed*KM2MI
   end
 
-  def max_speed
-    if use_metric
-      max_speed
-    else
-      max_speed*KM2MI
-    end
+  def max_speed(ride)
+    use_metric ? ride.max_speed : ride.max_speed*KM2MI
   end
 
-  def elevation_gain
-    if use_metric
-      elevation_gain
-    else
-      elevation_gain*M2FT
-    end
+  def elevation_gain(ride)
+    use_metric ? ride.elevation_gain : ride.elevation_gain*M2FT
   end
 
 end
