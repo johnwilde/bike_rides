@@ -54,13 +54,16 @@ class Ride < ActiveRecord::Base
     ft=GData::Client::FusionTables.new
     ft.auth_handler=authenticator
     tables=ft.show_tables
+    puts "Checking for new rides."
+    puts "Found #{tables.length} tables"
+    new_tables = []
     tables.each do |table|
       if !find_by_fusiontable_id(table.id)
-        make_ride_from_table(table, user)
+        new_tables << table
       end
     end
-
-    puts "Checking for new rides."
+    puts "Found #{new_tables.length} new tables"
+    new_tables.each {|table| make_ride_from_table(table, user)}
   end
 
   def self.get_authenticator(user)
@@ -128,31 +131,38 @@ class Ride < ActiveRecord::Base
   end
 
   def set_attributes_from_summary_text(text)
-    # remove stuff inside parens
-    text.gsub!(/\([^)]*\)/, "")
-    ["Total Distance:","Total Time:","Moving Time:",
-     "Average Speed:","Average Moving Speed:",
-     "Max Speed:","Min Elevation:","Max Elevation:",
-     "Elevation Gain:","Max Grade:","Min Grade:",
-     "Recorded:","Activity type:"].each do |s|
-       text.gsub!(s,",")
-     end
-    ["km/h", "%", "km", "m"].each {|s| text.gsub!(s,"")}
-  
-    text = text.split(",")
+    # remove the time strings like 2:23  or 23:32:22
+    re=/\d+:\d+:*\d*/
+    a=text.gsub(re,"")
+    b=text.scan(re)  # save the matches for parsing later
 
-    attr={ :total_distance  => text[1],
-           :total_time  => Ride.timestring_to_sec(text[2]),
-           :moving_time  => Ride.timestring_to_sec(text[3]),
-           :avg_speed  => text[4],
-           :avg_moving_speed => text[5],
-           :max_speed => text[6],
-           :min_elevation => text[7],
-           :max_elevation => text[8],
-           :elevation_gain => text[9],
-           :max_grade => text[10],
-           :min_grade => text[11],
-           :recorded => text[12].to_datetime}
+    # this regexp finds numbers like: 1.23 or or -3 or +3
+    a=a.scan(/[+-]?\d*\.?,?\d+/)
+    s=[]
+    s[0]=a[0]
+    s[1]=a[2] 
+    s[2]=a[4] 
+    s[3]=a[6] 
+    s[4]=a[8]
+    s[5]=a[10]
+    s[6]=a[12]
+    s[7]=a[14]
+    s[8]=a[15]
+    s.each {|n| n.sub!(",",".")}
+
+    attr={ :total_distance  => s[0],
+           :total_time  => Ride.timestring_to_sec(b[0]),
+           :moving_time  => Ride.timestring_to_sec(b[1]),
+           :avg_speed  => s[1],
+           :avg_moving_speed => s[2],
+           :max_speed => s[3],
+           :min_elevation => s[4],
+           :max_elevation => s[5],
+           :elevation_gain => s[6],
+           :max_grade => s[7],
+           :min_grade => s[8],
+           :recorded => text.split("%").last.to_datetime }
+
     update_attributes!(attr)
   
   end

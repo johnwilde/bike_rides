@@ -32,7 +32,7 @@ class RidesController < ApplicationController
 
   def updateall
     Ride.make_rides_from_fusiontables(current_user)
-    redirect_to rides_path 
+    redirect_to :back
   end
 
   private
