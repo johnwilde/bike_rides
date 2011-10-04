@@ -41,6 +41,10 @@ class Ride < ActiveRecord::Base
   validates :fusiontable_id, :ridedata, :presence  => true
   default_scope :order  => 'rides.recorded DESC'
 
+  def self.helpers
+    ActionController::Base.helpers
+  end
+
   def self.search(params)
     if params[:user_id]
       where(:user_id => params[:user_id])
@@ -56,15 +60,25 @@ class Ride < ActiveRecord::Base
     ft.auth_handler=authenticator
     tables=ft.show_tables
     puts "Checking for new rides."
-    puts "Found #{tables.length} tables"
+    puts "Found #{helpers.pluralize(tables.length, 'table')}"
     new_tables = []
     tables.each do |table|
       if !find_by_fusiontable_id(table.id)
         new_tables << table
       end
     end
-    puts "Found #{new_tables.length} new tables"
-    new_tables.each {|table| make_ride_from_table(table, user)}
+    out_s = []
+    out_s << "Found #{helpers.pluralize(new_tables.length, 'new table')}"
+    num_rides_before = Ride.count
+    new_tables.each do |table|
+      result = make_ride_from_table(table, user)
+      if (!result.blank?)
+        out_s <<  "On table #{table.id}: " + result
+      end
+    end 
+    num_rides_after = Ride.count
+    n=num_rides_after-num_rides_before
+    out_s << "Created #{helpers.pluralize(n,'ride')}."
   end
 
   def self.get_authenticator(user)
@@ -77,17 +91,30 @@ class Ride < ActiveRecord::Base
   end
 
   def self.make_ride_from_table(table, user)
-    geometry = table.select "geometry"
-    descriptions = table.select "description"
+    begin
+      ride=nil
+      geometry = table.select "geometry"
+      descriptions = table.select "description"
 
-    puts "Making ride #{table.id}"
-    ride=user.rides.create({:fusiontable_id  => table.id,
-                            :ridedata  => geometry.to_s})
+      puts "Making ride #{table.id}"
+      ride=user.rides.create({:fusiontable_id  => table.id,
+                              :ridedata  => geometry.to_s})
+      if (!ride.valid?)
+        return "No geometry data"
+      end
 
-    ride.set_ride_attributes(descriptions)
+      ride.set_ride_attributes(descriptions)
+      ride.compute_bounding_box()
+    rescue
+      if !ride.nil?
+        ride.destroy
+      end
+      return "Could not parse ride statistics"
+    else
+      puts "Created ride with duration: #{ride.moving_time}"
+      return ""
+    end
 
-    ride.compute_bounding_box()
-    puts "Created ride with duration: #{ride.moving_time}"
   end
 
   def compute_bounding_box()

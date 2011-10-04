@@ -19,7 +19,16 @@
     </div>
     <div class="container">
       <% flash.each do |key, value| %>
-        <div class="flash <%= key %>"><%= value %></div>
+        <div class="flash <%= key %>">
+          <% if value.class==Array  %>
+            <% value.each do |v| %>
+              <%= v %> 
+              <br />
+            <%end %>
+          <%else %>
+            <%= value %>
+          <%end  %>
+        </div>
       <% end %>
       <%= yield %>
       <%= debug(params) if Rails.env.development? %>

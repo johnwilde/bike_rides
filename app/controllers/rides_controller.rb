@@ -31,8 +31,8 @@ class RidesController < ApplicationController
   end
 
   def updateall
-    Ride.make_rides_from_fusiontables(current_user)
-    redirect_to :back
+    result = Ride.make_rides_from_fusiontables(current_user)
+    redirect_to :back, :notice  => result
   end
 
   private

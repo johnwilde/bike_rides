@@ -2,7 +2,7 @@
 class SessionsController < ApplicationController
   def create
     sign_in
-    redirect_to user_path(current_user), :notice => "Signed in!"
+    redirect_to user_path(current_user)
   end
 
 
@@ -13,6 +13,6 @@ class SessionsController < ApplicationController
   
   def destroy
     sign_out
-    redirect_to root_url, :notice => "Signed out!"
+    redirect_to root_url
   end
 end
