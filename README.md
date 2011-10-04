@@ -27,24 +27,25 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 ## Implementation notes
 ### Displaying the maps
 - Use the Google Maps Javascript API to create a Fusion Table layer (using the Fusion Table IDs from the user)
-- Find centerpoint and bounding boxes for map by parsing the ride data and using the geo_data gem.
+- Find centerpoint and bounding boxes for map by parsing the ride data and using the geo\_data gem.
 - Pass the necessary inputs to the javascript code by setting HTML attributes in the `<div>` element where the map will be inserted.
 
 ## General Resources ##
 <http://ruby.railstutorial.org/>
+<http://bostonrb.org/presentations/write-code-faster-expert-level-vim> Good talk on using VI for Rails
 <http://railscasts.com/episodes/37-simple-search-form?autoplay=true>  
 <http://railscasts.com/episodes/213-calendars?autoplay=true>  
 <http://railscasts.com/episodes/174-pagination-with-ajax>  
 <http://guides.rubyonrails.org/routing.html>  
 <http://www.youtube.com/watch?v=0L_dEOjhADQ>  
-<http://rubular.com/> (The nifty reg exp playground)  
+<http://rubular.com/> The nifty reg exp playground  
 <http://guides.rubyonrails.org/active_record_querying.html>  
 <http://railscasts.com/episodes/51-will-paginate>  
 <http://railscasts.com/episodes/132-helpers-outside-views>  
 
 ## Authentication
 <http://railscasts.com/episodes/235-omniauth-part-1?autoplay=true>  
-<http://railscasts.com/episodes/236-omniauth-part-2> (at 11:30 see how to override devise password required)  
+<http://railscasts.com/episodes/236-omniauth-part-2> At 11:30 see how to override devise password required.
 <http://railscasts.com/episodes/241-simple-omniauth>
 <http://railscasts.com/episodes/151-rack-middleware?view=similar (background for omniauth)>  
 <http://railscasts.com/episodes/210-customizing-devise?autoplay=true>  
@@ -65,5 +66,5 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 <https://github.com/balexand/gdata_plus>  
 
 ## Other
-<https://github.com/rstacruz/nakedpaper/tree/> (how to set environment variables on Heroku)  
-<https://github.com/jchunky/table_builder> (An updated version of table\_builder that works on 3.1)
+<https://github.com/rstacruz/nakedpaper/tree/> How to set environment variables on Heroku.
+<https://github.com/jchunky/table_builder> An updated version of table\_builder that works on 3.1
