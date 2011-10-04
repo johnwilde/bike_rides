@@ -119,8 +119,11 @@ class Ride < ActiveRecord::Base
         ptag=Nokogiri::HTML(d[:description]).css("p")
         ptag.each do |p|
           if ( !p.nil? )
-            if p.text =~ /^Total Distance/ 
+            # Hack in which I assume the presence of ':' indicates summary data to parse
+            # I'm doing this so I don't rely on specific words 
+            if p.text.count(':') > 10
               set_attributes_from_summary_text(p.text)
+            # Leave this check for now, although it won't work for non-english users.
             elsif (p.text =~ /^Created by My Tracks/) != 0
               update_attribute(:description, p.text)
             end
