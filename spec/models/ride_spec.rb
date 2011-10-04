@@ -1,47 +1,23 @@
-# == Schema Information
-#
-# Table name: rides
-#
-#  id               :integer         not null, primary key
-#  fusiontable_id   :integer
-#  created_at       :datetime
-#  updated_at       :datetime
-#  ridedata         :text
-#  centroid_lat     :float
-#  centroid_lon     :float
-#  bb_sw_lat        :float
-#  bb_sw_lon        :float
-#  bb_ne_lat        :float
-#  bb_ne_lon        :float
-#  user_id          :integer
-#  description      :text
-#  total_distance   :float
-#  total_time       :integer
-#  moving_time      :integer
-#  avg_speed        :float
-#  avg_moving_speed :float
-#  max_speed        :float
-#  min_elevation    :float
-#  max_elevation    :float
-#  elevation_gain   :float
-#  max_grade        :float
-#  min_grade        :float
-#  recorded         :datetime
-#
-# encoding: utf-8
 require 'spec_helper'
 
 describe "Ride" do
   
   before(:each) do
     @user = Factory(:user)
-    @attr = { :fusiontable_id  => "123456" }
+    @attr = { :fusiontable_id  => "123456",
+              :ridedata => "some ride geometry"}
+    
   end
   
   it "should create a new instance given valid attributes" do
     @user.rides.create!(@attr)
   end
   
+  it "should require ridedata" do
+    no_ridedata_ride = @user.rides.new(@attr.merge(:ridedata => ""))
+    no_ridedata_ride.should_not be_valid
+  end
+
   describe "user associations" do
     before(:each) do
       @ride = @user.rides.create(@attr)
@@ -57,6 +33,7 @@ describe "Ride" do
     end
 
   end
+
 
   describe "parsing ride description text" do
     before(:each) do 

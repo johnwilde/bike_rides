@@ -2,31 +2,32 @@
 #
 # Table name: rides
 #
-#  id               :integer         not null, primary key
-#  fusiontable_id   :integer
-#  created_at       :datetime
-#  updated_at       :datetime
-#  ridedata         :text
-#  centroid_lat     :float
-#  centroid_lon     :float
-#  bb_sw_lat        :float
-#  bb_sw_lon        :float
-#  bb_ne_lat        :float
-#  bb_ne_lon        :float
-#  user_id          :integer
-#  description      :text
-#  total_distance   :float
-#  total_time       :integer
-#  moving_time      :integer
-#  avg_speed        :float
-#  avg_moving_speed :float
-#  max_speed        :float
-#  min_elevation    :float
-#  max_elevation    :float
-#  elevation_gain   :float
-#  max_grade        :float
-#  min_grade        :float
-#  recorded         :datetime
+#  id                  :integer         primary key
+#  fusiontable_id      :integer
+#  created_at          :timestamp
+#  updated_at          :timestamp
+#  ridedata            :text
+#  centroid_lat        :float
+#  centroid_lon        :float
+#  bb_sw_lat           :float
+#  bb_sw_lon           :float
+#  bb_ne_lat           :float
+#  bb_ne_lon           :float
+#  user_id             :integer
+#  description         :text
+#  total_distance      :float
+#  total_time          :integer
+#  moving_time         :integer
+#  avg_speed           :float
+#  avg_moving_speed    :float
+#  max_speed           :float
+#  min_elevation       :float
+#  max_elevation       :float
+#  elevation_gain      :float
+#  max_grade           :float
+#  min_grade           :float
+#  recorded            :timestamp
+#  private_description :text
 #
 
 require 'geo_ruby'
@@ -37,7 +38,7 @@ class Ride < ActiveRecord::Base
   # make everything accessible
   #attr_accessible 
   belongs_to :user
-  validates :fusiontable_id, :presence  => true
+  validates :fusiontable_id, :ridedata, :presence  => true
   default_scope :order  => 'rides.recorded DESC'
 
   def self.search(params)

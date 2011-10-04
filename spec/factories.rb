@@ -6,4 +6,5 @@ end
 Factory.define :ride do |ride|
   ride.fusiontable_id "123123"
   ride.association :user
+  ride.ridedata "some test data"
 end
