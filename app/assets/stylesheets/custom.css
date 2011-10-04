@@ -27,6 +27,12 @@ td.stat-units{
 table.ride-stats{
  border: 1px solid black; 
 }
+.private_notes{
+height: 60px;
+}
+.public_notes{
+height: 60px;
+}
 
 
 .digg_pagination{
