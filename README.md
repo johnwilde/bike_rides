@@ -31,7 +31,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 - Pass the necessary inputs to the javascript code by setting HTML attributes in the `<div>` element where the map will be inserted.
 
 ## General Resources ##
-<http://ruby.railstutorial.org/>
+<http://ruby.railstutorial.org/>  
 <http://bostonrb.org/presentations/write-code-faster-expert-level-vim> Good talk on using VI for Rails
 <http://railscasts.com/episodes/37-simple-search-form?autoplay=true>  
 <http://railscasts.com/episodes/213-calendars?autoplay=true>  
@@ -45,7 +45,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 
 ## Authentication
 <http://railscasts.com/episodes/235-omniauth-part-1?autoplay=true>  
-<http://railscasts.com/episodes/236-omniauth-part-2> At 11:30 see how to override devise password required.
+<http://railscasts.com/episodes/236-omniauth-part-2> At 11:30 see how to override devise password required.  
 <http://railscasts.com/episodes/241-simple-omniauth>
 <http://railscasts.com/episodes/151-rack-middleware?view=similar (background for omniauth)>  
 <http://railscasts.com/episodes/210-customizing-devise?autoplay=true>  

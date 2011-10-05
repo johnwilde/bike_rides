@@ -161,6 +161,24 @@ class Ride < ActiveRecord::Base
     end
   end
 
+# Note: this is the formatting used by MyTracks, found here:
+#   MyTracks/src/com/google/android/apps/mytracks/util/StringUtils.java
+#
+#    return String.format("%s<p>"
+#       + "%s: %.2f %s (%.1f %s)<br>"
+#       + "%s: %s<br>"
+#       + "%s: %s<br>"
+#       + "%s %s %s"
+#       + "%s: %d %s (%d %s)<br>"
+#       + "%s: %d %s (%d %s)<br>"
+#       + "%s: %d %s (%d %s)<br>"
+#       + "%s: %d %%<br>"
+#       + "%s: %d %%<br>"
+#       + "%s: %tc<br>"
+#       + "%s: %s<br>"
+#       + "<img border=\"0\" src=\"%s\"/>",
+#
+
   def set_attributes_from_summary_text(text)
     # remove the time strings like 2:23  or 23:32:22
     re=/\d+:\d+:*\d*/
