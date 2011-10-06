@@ -32,7 +32,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 
 ## General Resources ##
 <http://ruby.railstutorial.org/>  
-<http://bostonrb.org/presentations/write-code-faster-expert-level-vim> Good talk on using VI for Rails
+<http://bostonrb.org/presentations/write-code-faster-expert-level-vim> Good talk on using VI for Rails  
 <http://railscasts.com/episodes/37-simple-search-form?autoplay=true>  
 <http://railscasts.com/episodes/213-calendars?autoplay=true>  
 <http://railscasts.com/episodes/174-pagination-with-ajax>  
@@ -66,5 +66,5 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 <https://github.com/balexand/gdata_plus>  
 
 ## Other
-<https://github.com/rstacruz/nakedpaper/tree/> How to set environment variables on Heroku.
-<https://github.com/jchunky/table_builder> An updated version of table\_builder that works on 3.1
+<https://github.com/rstacruz/nakedpaper/tree/> How to set environment variables on Heroku.  
+<https://github.com/jchunky/table_builder> An updated version of table\_builder that works on 3.1  

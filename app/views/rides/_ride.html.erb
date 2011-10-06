@@ -1,7 +1,7 @@
 <table class="ride" >
 <tr>
   <td>
-    <b><%= ride.recorded.getlocal.to_s(:ride_time) %></b>
+    <b><%= ride.recorded_localtime.to_s(:ride_time) %></b>
     <%  uri = URI::HTTPS.build({:host => "www.google.com", :path => "/fusiontables/DataSource", :query => "dsrcid=#{ride.fusiontable_id}" }).to_s %>
     <%= link_to "(link)", uri %>
   <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 

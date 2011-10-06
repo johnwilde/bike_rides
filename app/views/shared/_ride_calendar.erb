@@ -6,7 +6,7 @@
   </h2>
   <%= calendar_for @rides, :year => @date.year, :month => @date.month do |calendar| %>
     <%= calendar.head('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday') %>
-    <%= calendar.day(:day_method => :recorded) do |date,rides| %>
+    <%= calendar.day(:day_method => :recorded_localtime) do |date,rides| %>
       <%= date.day %>
       <ul>
         <% for ride in rides%>

@@ -117,6 +117,10 @@ class Ride < ActiveRecord::Base
 
   end
 
+  def recorded_localtime
+    recorded.getlocal
+  end
+
   def compute_bounding_box()
     tmp = []
     max_segment = nil
