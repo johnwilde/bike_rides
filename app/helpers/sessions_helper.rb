@@ -16,9 +16,8 @@ module SessionsHelper
     user == current_user
   end
   
-  def sign_in
+  def sign_in(auth)
     puts "CREATING SESSION"
-    auth = request.env["omniauth.auth"]
     user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
     user.update_attributes(:token  => auth["credentials"]["token"], :secret  => auth["credentials"]["secret"])
     session[:user_id] = user.id

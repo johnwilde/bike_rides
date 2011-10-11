@@ -44,6 +44,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 <http://railscasts.com/episodes/132-helpers-outside-views>  
 
 ## Authentication
+<http://code.google.com/apis/accounts/docs/OpenID.html> Uses the Hybrid strategy (OpenID authentication of user + OAuth authorization for access to Fusion Tables)  
 <http://railscasts.com/episodes/235-omniauth-part-1?autoplay=true>  
 <http://railscasts.com/episodes/236-omniauth-part-2> At 11:30 see how to override devise password required.  
 <http://railscasts.com/episodes/241-simple-omniauth>

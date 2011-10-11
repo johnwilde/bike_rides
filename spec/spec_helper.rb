@@ -1,4 +1,5 @@
 require 'spork'
+require 'capybara/rspec'
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However, 
@@ -24,15 +25,31 @@ Spork.prefork do
 
     config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
-    # If you're not using ActiveRecord, or you'd prefer not to run each of your
+  # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, comment the following line or assign false
     # instead of true.
-    config.use_transactional_fixtures = true
+    #config.use_transactional_fixtures = true
 
-    def test_sign_in(user)
-      controller.sign_in(user)
+    def test_configure_oauth_for_user(user, service = :google_hybrid)
+      credentials=
+      {"scope"=>["https://www.google.com/fusiontables/api/query"],
+       "token"=>"test_token",
+       "secret"=>"test_secret"}
+      user_info= {"name" => user.name,
+                  "email" => user.email}
+      OmniAuth.config.add_mock(:google_hybrid, 
+                               {:uid => user.uid,
+                                "credentials" => credentials,
+                                "user_info" => user_info})
+    end
+    
+    def test_login_user_with_oauth(user, service = :google_hybrid)
+      test_configure_oauth_for_user(user, service)
+      visit "/auth/#{service}"
     end
   end
+
+  OmniAuth.config.test_mode = true
 end
 
 Spork.each_run do

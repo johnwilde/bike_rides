@@ -29,6 +29,8 @@ end
 
 group :test do
   # Pretty printed test output
+  gem 'rspec-rails', '2.6.1'
+  gem 'capybara'
   gem 'turn', :require => false
   gem 'spork', '0.9.0.rc5'
   gem 'factory_girl_rails', '1.0'

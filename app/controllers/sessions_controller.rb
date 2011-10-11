@@ -1,7 +1,8 @@
 
 class SessionsController < ApplicationController
   def create
-    sign_in
+    auth = request.env["omniauth.auth"]
+    sign_in (auth)
     redirect_to user_path(current_user)
   end
 
