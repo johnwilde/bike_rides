@@ -19,9 +19,10 @@
 require 'spec_helper'
 
 describe "User" do
+
   before(:each) do
     @attr = {
-      :username  => "John",
+      :name  => "John",
       :email  => "blah@mail.com",
     }
   end
@@ -33,8 +34,8 @@ describe "User" do
   describe "ride associations" do
     before(:each) do
       @user = User.create(@attr)
-      @r1 = Factory(:ride, :user => @user, :created_at => 1.day.ago)
-      @r2 = Factory(:ride, :user => @user, :created_at => 1.hour.ago)
+      @r1 = Factory(:ride, :user => @user, :recorded => 1.day.ago)
+      @r2 = Factory(:ride, :user => @user, :recorded => 1.hour.ago)
     end
 
     it "should have the rides in the right order" do

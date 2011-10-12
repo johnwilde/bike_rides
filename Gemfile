@@ -24,7 +24,7 @@ group :development do
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
   gem 'faker', '0.3.1'
   gem 'pry'
-  gem 'factory_girl_rails', '1.0'
+  gem 'factory_girl_rails'
 end
 
 group :test do
@@ -32,9 +32,10 @@ group :test do
   gem 'rspec-rails', '2.6.1'
   gem 'capybara'
   gem 'turn', :require => false
-  gem 'spork', '0.9.0.rc5'
-  gem 'factory_girl_rails', '1.0'
+  gem 'factory_girl_rails'
   gem 'pry'
+  gem "spork", "> 0.9.0.rc"
+  gem "guard-spork"
 end
 
 group :production do

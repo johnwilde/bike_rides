@@ -4,8 +4,6 @@ class RidesController < ApplicationController
   include SessionsHelper
 
   before_filter :authorized_user, :only => :destroy
-  def new
-  end
 
   def update
     @ride = Ride.find(params[:id])

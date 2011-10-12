@@ -2,7 +2,7 @@ Factory.define :user do |user|
   user.name "Test User"
   user.email "testuser@gmail.org"
   user.provider   "google_hybrid"
-  user.uid "uid"
+  user.sequence(:uid) { |n| n }
 end
 
 Factory.sequence :uid do |n|

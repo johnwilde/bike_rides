@@ -34,7 +34,6 @@ describe "Ride" do
 
   end
 
-
   describe "parsing ride description text" do
     before(:each) do 
       @ride = @user.rides.create(@attr)

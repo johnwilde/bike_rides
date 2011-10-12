@@ -18,7 +18,7 @@ module SessionsHelper
   
   def sign_in(auth)
     puts "CREATING SESSION"
-    user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
+    user = User.find_by_uid(auth["uid"]) || User.create_with_omniauth(auth)
     user.update_attributes(:token  => auth["credentials"]["token"], :secret  => auth["credentials"]["secret"])
     session[:user_id] = user.id
     self.current_user = user

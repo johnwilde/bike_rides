@@ -12,6 +12,7 @@ BikeRides2::Application.routes.draw do
   match "/auth/:provider/callback"  => "sessions#create", :as =>:signin
   match "/auth/failure"  => "sessions#fail"
   match "/signout" => "sessions#destroy", :as => :signout
+  match "login" => "users#login", :as => "login"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

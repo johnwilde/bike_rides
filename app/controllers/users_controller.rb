@@ -21,14 +21,13 @@ class UsersController < ApplicationController
     @title = "Sign up"
   end
   
-  def create
-    @user = User.new(params[:user])
-    if @user.save
-      sign_in @user
-      redirect_to @user
+  def login
+    session[:return_to] = params[:return_to] if params[:return_to]
+    if Rails.env.development?
+      session[:user_id] = User.first.id
+      redirect_to_target_or_default root_url, :notice => "Signed in successfully"
     else
-      @title = "Sign up"
-      render 'new'
+      redirect_to "/auth/google_hybrid"
     end
   end
   
