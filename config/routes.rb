@@ -9,7 +9,7 @@ BikeRides2::Application.routes.draw do
   resources :sessions, :only => [:create, :destroy, :fail]
 
   root :to  => "pages#home"
-  match "/auth/:provider/callback"  => "sessions#create", :as =>:signin
+  match "/auth/:provider/callback"  => "sessions#create"
   match "/auth/failure"  => "sessions#fail"
   match "/signout" => "sessions#destroy", :as => :signout
   match "login" => "users#login", :as => "login"

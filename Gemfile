@@ -34,8 +34,10 @@ group :test do
   gem 'turn', :require => false
   gem 'factory_girl_rails'
   gem 'pry'
+  gem "guard-rspec"
   gem "spork", "> 0.9.0.rc"
   gem "guard-spork"
+  gem "rb-inotify"
 end
 
 group :production do

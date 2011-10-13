@@ -109,6 +109,8 @@ GEM
     gem_plugin (0.2.3)
     guard (0.8.4)
       thor (~> 0.14.6)
+    guard-rspec (0.5.0)
+      guard (>= 0.8.4)
     guard-spork (0.3.1)
       guard (>= 0.8.4)
       spork (>= 0.8.4)
@@ -214,6 +216,8 @@ GEM
       rdoc (~> 3.4)
       thor (~> 0.14.6)
     rake (0.9.2)
+    rb-inotify (0.8.8)
+      ffi (>= 0.5.0)
     rdoc (3.10)
       json (~> 1.4)
     rest-client (1.6.7)
@@ -292,6 +296,7 @@ DEPENDENCIES
   faker (= 0.3.1)
   fusion_tables!
   gdata_plus!
+  guard-rspec
   guard-spork
   jquery-rails
   mongrel
@@ -300,6 +305,7 @@ DEPENDENCIES
   pg
   pry
   rails (= 3.1.0)
+  rb-inotify
   rspec-rails (= 2.6.1)
   sass-rails (~> 3.1.0)
   spork (> 0.9.0.rc)

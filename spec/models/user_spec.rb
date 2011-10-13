@@ -47,7 +47,6 @@ describe "User" do
       [@r1, @r2].each do |r|
         Ride.find_by_id(r.id).should be_nil
       end
-        
     end
   end
 end
