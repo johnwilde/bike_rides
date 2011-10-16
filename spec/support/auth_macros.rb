@@ -18,6 +18,7 @@ module AuthMacros
   end
 
   def current_user
+    puts "getting current_user from AuthMacros"
     @_current_user
   end
 end

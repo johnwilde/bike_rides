@@ -27,8 +27,16 @@ describe "User" do
     }
   end
 
-  it "should create a user" do
-    User.create!(@attr)
+  it "should create a user from omniauth hash" do
+    omniauth = {"provider" => "google_hybrd", "uid" => "123", "user_info" => {}, "credentials" => {}}
+    omniauth["user_info"] = 
+      {"name" => "MyName",
+       "email" => "myemail@google.com"}
+
+    @user = User.create_with_omniauth(omniauth)
+    @user.email.should eq("myemail@google.com")
+    @user.uid.should eq("123")
+    @user.name.should eq("MyName")
   end
 
   describe "ride associations" do

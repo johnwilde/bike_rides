@@ -11,8 +11,8 @@ describe "Users request" do
 
   it "logs in a user" do
     user = Factory(:user)
-    login user
-    visit user_path(user)
+    login user  #see auth_macros in support folder 
+    visit user_path(user)  
     page.should have_button("Update Rides")
     page.should have_content('Welcome '+user.name)
 
@@ -28,6 +28,7 @@ describe "Users request" do
     visit user_path(user)
     page.should_not have_button("Update Rides")
   end
+
 
 
 end

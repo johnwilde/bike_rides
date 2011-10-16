@@ -1,7 +1,5 @@
 class UsersController < ApplicationController
-
-  before_filter :correct_user, :only => [:edit, :update]
-  before_filter :admin_user,   :only => :destroy
+  before_filter :load_current_user, :only => [:edit, :update]
   
   def index
     @users = User.paginate(:page => params[:page])
@@ -17,8 +15,6 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user  = User.new
-    @title = "Sign up"
   end
   
   def login
@@ -49,13 +45,8 @@ class UsersController < ApplicationController
 
   private
 
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
-    end
-    
-    def admin_user
-      @user = User.find(params[:id])
-      redirect_to(root_path) if !current_user.admin? || current_user?(@user)
-    end
+  def load_current_user
+    @user = current_user
+  end
+
 end

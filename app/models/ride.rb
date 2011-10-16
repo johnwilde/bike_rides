@@ -53,11 +53,25 @@ class Ride < ActiveRecord::Base
     end
   end
 
-  def self.make_rides_from_fusiontables(user)
+  def self.get_fusiontable(user)
     authenticator = get_authenticator(user)
     gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")
     ft=GData::Client::FusionTables.new
     ft.auth_handler=authenticator
+    return ft
+  end
+
+  def self.get_authenticator(user)
+    GDataPlus::Authenticator::OAuth.new(
+      :consumer_key => CONSUMER_KEY,
+      :consumer_secret => CONSUMER_SECRET,
+      :access_token => user.token,
+      :access_secret => user.secret
+    )
+  end
+ 
+  def self.make_rides_from_fusiontables(user)
+    ft = get_fusiontable(user)
     tables=ft.show_tables
     puts "Checking for new rides."
     puts "Found #{helpers.pluralize(tables.length, 'table')}"
@@ -81,21 +95,11 @@ class Ride < ActiveRecord::Base
     out_s << "Created #{helpers.pluralize(n,'ride')}."
   end
 
-  def self.get_authenticator(user)
-    GDataPlus::Authenticator::OAuth.new(
-      :consumer_key => CONSUMER_KEY,
-      :consumer_secret => CONSUMER_SECRET,
-      :access_token => user.token,
-      :access_secret => user.secret
-    )
-  end
-
   def self.make_ride_from_table(table, user)
     begin
       ride=nil
       geometry = table.select "geometry"
       descriptions = table.select "description"
-
       puts "Making ride #{table.id}"
       ride=user.rides.create({:fusiontable_id  => table.id,
                               :ridedata  => geometry.to_s})
