@@ -39,6 +39,7 @@ describe "User" do
     @user.name.should eq("MyName")
   end
 
+
   describe "ride associations" do
     before(:each) do
       @user = User.create(@attr)

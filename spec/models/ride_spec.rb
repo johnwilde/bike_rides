@@ -47,13 +47,11 @@ describe "Ride" do
   describe "parsing ride description text" do
     before(:each) do 
       @ride = @user.rides.create(@attr)
-      @text = "Total Distance: 32.91 km (20.4 mi)Total Time: 1:08:12Moving Time: 57:29Average Speed: 28.95 km/h (18.0 mi/h) Average Moving Speed: 34.35 km/h (21.3 mi/h) Max Speed: 65.70 km/h (40.8 mi/h)Min Elevation: -10 m (-31 ft)Max Elevation: 173 m (569 ft)Elevation Gain: 420 m (1378 ft)Max Grade: 10 %Min Grade: -8 %Recorded: Tue Aug 23 06:32:43 PDT 2011Activity type: -"
-      @text2= "Distancia total: 3,90 km (2,4 mi)Tiempo total: 22:58Tiempo en movimiento: 16:55Velocidad promedio: 10,19 km/h (6,3 mi/h) Velocidad promedio en movimiento: 13,84 km/h (8,6 mi/h) Velocidad m?xima: 20,70 km/h (12,9 mi/h)Elevaci?n m?nima: 90 m (295 ft)Elevaci?n m?xima: 130 m (425 ft)Aumento de elevaci?n: 19 m (61 ft)Pendiente m?xima: 5 %Pendiente m?nima: -3 %Grabado: dom jun 19 13:26:13 GMT+02:00 2011Tipo de actividad: -"
     end
 
-
     it "should parse fields (english)" do
-      @ride.set_attributes_from_summary_text(@text)
+      text = "Total Distance: 32.91 km (20.4 mi)Total Time: 1:08:12Moving Time: 57:29Average Speed: 28.95 km/h (18.0 mi/h) Average Moving Speed: 34.35 km/h (21.3 mi/h) Max Speed: 65.70 km/h (40.8 mi/h)Min Elevation: -10 m (-31 ft)Max Elevation: 173 m (569 ft)Elevation Gain: 420 m (1378 ft)Max Grade: 10 %Min Grade: -8 %Recorded: Tue Aug 23 06:32:43 PDT 2011Activity type: -"
+      @ride.set_attributes_from_summary_text(text)
       @ride.total_distance.should == 32.91
       @ride.total_time.should==1*3600+8*60+12
       @ride.moving_time.should==57*60+29
@@ -68,8 +66,9 @@ describe "Ride" do
       @ride.recorded.should==DateTime.parse("Tue Aug 23 06:32:43 PDT 2011")
     end
 
-    it "should parse fields (italian)" do
-      @ride.set_attributes_from_summary_text(@text2)
+    it "should parse fields (spanish)" do
+      text= "Distancia total: 3,90 km (2,4 mi)Tiempo total: 22:58Tiempo en movimiento: 16:55Velocidad promedio: 10,19 km/h (6,3 mi/h) Velocidad promedio en movimiento: 13,84 km/h (8,6 mi/h) Velocidad m?xima: 20,70 km/h (12,9 mi/h)Elevaci?n m?nima: 90 m (295 ft)Elevaci?n m?xima: 130 m (425 ft)Aumento de elevaci?n: 19 m (61 ft)Pendiente m?xima: 5 %Pendiente m?nima: -3 %Grabado: dom jun 19 13:26:13 GMT+02:00 2011Tipo de actividad: -"
+      @ride.set_attributes_from_summary_text(text)
       @ride.total_distance.should == 3.90
       @ride.total_time.should==22*60+58
       @ride.moving_time.should==16*60+55
