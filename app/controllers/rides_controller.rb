@@ -1,12 +1,11 @@
 require 'will_paginate/array'
 
 class RidesController < ApplicationController
-  include SessionsHelper
-
-  before_filter :authorized_user, :only => :destroy
+  # The CanCan gem loads the resource into an instance  variable
+  # https://github.com/ryanb/cancan
+  load_and_authorize_resource
 
   def update
-    @ride = Ride.find(params[:id])
     if @ride.update_attributes(params[:ride])
       redirect_to rides_path + "?user_id=#{@ride.user_id}", :flash => { :success => "Ride updated." }
     else
@@ -14,7 +13,6 @@ class RidesController < ApplicationController
   end
 
   def show
-    @ride = Ride.find(params[:id])
   end
 
   def index
@@ -33,9 +31,4 @@ class RidesController < ApplicationController
     redirect_to :back, :notice  => result
   end
 
-  private
-    def authorized_user
-      @ride = current_user.rides.find_by_id(params[:id])
-      redirect_to root_path if @ride.nil?
-    end
 end

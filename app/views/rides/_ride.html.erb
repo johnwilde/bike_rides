@@ -8,7 +8,7 @@
     lat="<%=ride.centroid_lat%>" lon="<%=ride.centroid_lon%>" sw_lat="<%=ride.bb_sw_lat%>" sw_lon="<%=ride.bb_sw_lon%>" ne_lat="<%=ride.bb_ne_lat%>" ne_lon="<%=ride.bb_ne_lon%>"></div>
   </td>
   <td class="notes">
-    <% if !current_user.nil? and (current_user.id == ride.user_id) %>
+    <% if can? :update, ride %>
       <%= form_for ride  do |f| %>
         <%= f.label :description, "Public notes:" %><br/>
         <%= f.text_area :description, :class  => 'public_notes' %><br/>
@@ -48,7 +48,7 @@
         <td class="stat-units"> <%= m_units %> </td> 
       </tr>
     </table>
-    <% if !current_user.nil? and (current_user.id == ride.user_id) %>
+    <% if can? :destroy , ride %>
       <%= button_to "Delete Ride", { :action => 'destroy', :id => ride.id}, :method => :delete %>
     <% end %>
   </td>

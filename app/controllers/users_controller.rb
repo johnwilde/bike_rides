@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
   before_filter :load_current_user, :only => [:edit, :update]
+
+  # The CanCan gem loads the resource into an instance  variable
+  # https://github.com/ryanb/cancan
+  load_and_authorize_resource
   
   def index
     @users = User.paginate(:page => params[:page])
@@ -7,9 +11,7 @@ class UsersController < ApplicationController
   end
   
   def show
-    @user = User.find(params[:id])
     @title = @user.name
-
     @date = params[:month] ? Date.parse(params[:month]) : Date.today
     @rides = @user.rides
   end
@@ -39,8 +41,11 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    if @user == current_user
+      sign_out
+    end
     @user.destroy
-    redirect_to users_path, :flash => { :success => "User destroyed." }
+    redirect_to root_url, :flash => { :success => "User destroyed." }
   end
 
   private
@@ -48,5 +53,4 @@ class UsersController < ApplicationController
   def load_current_user
     @user = current_user
   end
-
 end

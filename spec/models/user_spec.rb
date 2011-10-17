@@ -39,6 +39,10 @@ describe "User" do
     @user.name.should eq("MyName")
   end
 
+  it "has admin attribute set to false" do
+    @user = User.create(@attr)
+    @user.admin?.should eq(false)
+  end
 
   describe "ride associations" do
     before(:each) do

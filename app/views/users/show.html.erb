@@ -4,7 +4,7 @@
 
       <%= render 'shared/ride_calendar' %>
 
-      <% if current_user?(@user) %>
+      <% if can? :update, User%>
         <%= form_for @user do |f| %>
           <%= f.label "Use Metric Units" %>
           <%= check_box("user", "use_metric_units") %>
@@ -19,7 +19,7 @@
         <%= link_to "All My Rides", rides_path + "?" + "user_id=#{@user.id}"%>
       <% end %>
 
-      <% if current_user?(@user) %>
+      <% if can? :create, Ride%>
         <%= render 'shared/update_rides' %>
       <% end %>
   </td>

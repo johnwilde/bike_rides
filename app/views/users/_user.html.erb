@@ -1,8 +1,11 @@
 <li>
   <%= link_to user.name, user %>
-  <% if !current_user.nil? and current_user.admin? %>
-  |
-  <%= link_to "delete", user, :method => :delete, :confirm => "You sure?",
-                              :title => "Delete #{user.name}" %>
+  <% if user.admin? %>
+    (admin)
   <% end %>
+  <% if can? :destroy, user %>
+    |
+    <%= link_to "delete", user, :method => :delete, :confirm => "You sure?",
+    :title => "Delete #{user.name}" %>
+<% end %>
 </li>

@@ -12,4 +12,8 @@ module SessionsHelper
     user == current_user
   end
   
+  def sign_out
+    puts "DESTROYING SESSION"
+    session[:user_id] = nil
+  end
 end
