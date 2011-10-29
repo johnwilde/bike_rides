@@ -21,10 +21,5 @@ class SessionsController < ApplicationController
     session[:user_id] = user.id
   end
 
-  def sign_out
-    puts "DESTROYING SESSION"
-    session[:user_id] = nil
-  end
-  helper_method :sign_out
 
 end
