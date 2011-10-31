@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111031044745) do
+ActiveRecord::Schema.define(:version => 20111031081232) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(:version => 20111031044745) do
     t.float    "min_grade"
     t.datetime "recorded"
     t.text     "private_description"
-    t.string   "weather"
+    t.text     "weather"
   end
 
   add_index "rides", ["user_id", "created_at"], :name => "index_rides_on_user_id_and_created_at"
