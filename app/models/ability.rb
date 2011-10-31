@@ -6,9 +6,8 @@ class Ability
 
     can :read, Ride
     can [:read, :create, :login], User
-     
     if user
-      can [:create, :update, :destroy], Ride, :user_id => user.id
+      can [:create, :update, :destroy, :updateall], Ride, :user_id => user.id
       can [:update, :destroy], User, :id => user.id 
       if user.admin?
         can :manage, :all

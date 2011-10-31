@@ -16,6 +16,8 @@ gem 'GeoRuby'
 gem 'omniauth'
 gem 'table_builder', '0.0.3', :git => 'git://github.com/jchunky/table_builder.git' 
 gem 'cancan'
+gem 'resque', :require => "resque/server"
+gem 'redis'
 
 group :development do
   # user mongrel web server to handle the large oauth requests

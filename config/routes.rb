@@ -14,6 +14,8 @@ BikeRides2::Application.routes.draw do
   match "/signout" => "sessions#destroy", :as => :signout
   match "login" => "users#login", :as => "login"
 
+  mount Resque::Server, :at => "/resque"
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
