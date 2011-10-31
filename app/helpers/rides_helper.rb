@@ -15,6 +15,10 @@ module RidesHelper
     use_metric ?  "km/hr" :  "mi/hr"
   end
 
+  def temp_units
+    use_metric ? "C" : "F"
+  end
+
   def moving_time_hm(ride)
     sec_to_hm(ride.moving_time)
   end
@@ -42,6 +46,13 @@ module RidesHelper
 
   def elevation_gain(ride)
     use_metric ? ride.elevation_gain : ride.elevation_gain*M2FT
+  end
+
+  def temperature(ride)
+    data = JSON.parse(ride.weather)
+    temp_m = data['tempm']
+    temp_i = data['tempi']
+    use_metric ? temp_m : temp_i
   end
 
 end
