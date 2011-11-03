@@ -61,6 +61,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 <http://guides.rubyonrails.org/active_record_querying.html>  
 <http://railscasts.com/episodes/51-will-paginate>  
 <http://railscasts.com/episodes/132-helpers-outside-views>  
+<http://railscasts.com/episodes/271-resque>  
 
 ## Authentication
 <http://code.google.com/apis/accounts/docs/OpenID.html> Uses the Hybrid strategy (OpenID authentication of user + OAuth authorization for access to Fusion Tables)  

@@ -6,7 +6,9 @@
                                   :query => "dsrcid=#{ride.google_table_id}",
       :fragment => "map:id=3" }).to_s %>
     <%= link_to "(link)", uri %>
-    <%= temperature(ride) %>&deg; <%= temp_units %>
+    <% if !ride.weather.nil? %>
+      <%= temperature(ride) %>&deg; <%= temp_units %>
+    <% end %>
     <div class="ft_map" ft_id="<%= ride.google_table_id %>" 
       lat="<%=ride.ride_detail.centroid_lat%>" 
       lon="<%=ride.ride_detail.centroid_lon%>" 

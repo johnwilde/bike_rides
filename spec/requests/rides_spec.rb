@@ -24,4 +24,18 @@ describe "Rides request" do
     visit ride_path(ride)
     page.should have_content("Private Notes")
   end
+
+  it "shows temperature of ride if it exists" do
+    ride=Factory(:ride)
+    visit ride_path(ride)
+    # how do you test for a match with the HTML "&deg;" symbol?
+    # here I just skip those two chars
+    page.html.should match /28\.0..C/
+  end
+
+  it "still shows ride if weather data isn't there" do
+    ride=Factory(:ride, :weather => nil)
+    visit ride_path(ride)
+    page.should have_content("Total distance")
+  end
 end

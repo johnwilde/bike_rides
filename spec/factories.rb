@@ -22,6 +22,5 @@ FactoryGirl.define do
   sequence :uid do |n|
     SecureRandom.hex(16)
   end
-
 end
 
