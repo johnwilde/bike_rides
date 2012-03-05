@@ -30,6 +30,15 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 - Find centerpoint and bounding boxes for map by parsing the ride data and using the geo\_data gem.
 - Pass the necessary inputs to the javascript code by setting HTML attributes in the `<div>` element where the map will be inserted.
 
+## Getting up and running
+- bundle install
+- bundle exec rake db:migrate
+- bundle exec rake db:test:prepare
+- Postgresql is the DB, some helpful commands:
+- to install (on OS X): brew install postgresql
+- to get status of server: pg\_ctl status -D /usr/local/var/postgres/
+- to list available databases: psql -l
+
 ## General Resources ##
 <http://ruby.railstutorial.org/>  
 <http://bostonrb.org/presentations/write-code-faster-expert-level-vim> Good talk on using VI for Rails  

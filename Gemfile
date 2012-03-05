@@ -6,22 +6,22 @@ gem 'rails', '3.1.0'
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 gem 'gdata_plus', :git  => 'git://github.com/johnwilde/gdata_plus.git'
-
+gem 'ruby-openid'
 gem 'jquery-rails'
-gem 'sqlite3'
 gem "therubyracer"
 gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
-gem 'omniauth'
+gem 'omniauth', '0.3.2'
 gem 'table_builder', '0.0.3', :git => 'git://github.com/jchunky/table_builder.git' 
 gem 'cancan'
 gem 'resque', :require => "resque/server"
 gem 'redis'
+gem 'pg'
 
 group :development do
   # user mongrel web server to handle the large oauth requests
-  gem 'mongrel'
+  gem 'thin'
   gem 'nifty-generators'
   gem 'rspec-rails', '2.6.1'
   gem 'annotate', :git => 'git://github.com/ctran/annotate_models.git'
@@ -40,11 +40,9 @@ group :test do
   gem "guard-rspec"
   gem "spork", "> 0.9.0.rc"
   gem "guard-spork"
-  gem "rb-inotify"
 end
 
 group :production do
-  gem 'pg'
 end
 
 # Gems used only for assets and not required
@@ -52,7 +50,7 @@ end
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
+  #gem 'uglifier'
 end
 
 
