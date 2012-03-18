@@ -188,6 +188,7 @@ class Ride < ActiveRecord::Base
 #
 
   def set_attributes_from_summary_text(text)
+    text.gsub!('<br>', ' ')
     # remove the time strings like 2:23  or 23:32:22
     re=/\d+:\d+:*\d*/
     a=text.gsub(re,"")
@@ -207,6 +208,16 @@ class Ride < ActiveRecord::Base
     s[8]=a[15]
     s.each {|n| n.sub!(",",".")}
 
+    datetext = text.split("%").last
+    datetext.gsub!("Recorded: ","")
+    datetext.gsub!("Activity type: -","")
+    # hack to parse date
+    if ( datetext.include?('/') )
+        datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"
+    else
+        datetime = DateTime.parse( datetext ); # "Tue Aug 23 06:32:43 PDT 2011"
+    end
+
     attr={ :total_distance  => s[0],
            :total_time  => Ride.timestring_to_sec(b[0]),
            :moving_time  => Ride.timestring_to_sec(b[1]),
@@ -218,7 +229,7 @@ class Ride < ActiveRecord::Base
            :elevation_gain => s[6],
            :max_grade => s[7],
            :min_grade => s[8],
-           :recorded => text.split("%").last.to_datetime }
+           :recorded => datetime } 
 
     update_attributes!(attr)
   

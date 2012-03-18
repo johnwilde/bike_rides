@@ -44,9 +44,34 @@ describe "Ride" do
     end
   end
 
+  # describe "parse ride geometry" do
+  #   @attr = { :fusiontable_id  => "123456",
+  #             :ridedata => "some ride geometry"}
+  #   it should "parse geo data" do
+  #   end
+  # end
+
   describe "parsing ride description text" do
     before(:each) do 
       @ride = @user.rides.create(@attr)
+    end
+
+    it "should parse fields latest version (english)" do
+      text = "Total distance: 32.91 km (20.4 mi)<br>Total time: 1:08:12<br>Moving time: 57:29<br>Average speed: 28.95 km/h (18.0 mi/h)<br> Average moving speed: 34.35 km/h (21.3 mi/h)<br> Max speed: 65.70 km/h (40.8 mi/h)<br>Min elevation: -10 m (-31 ft)<br>Max elevation: 173 m (569 ft)Elevation gain: 420 m (1378 ft)<br>Max grade: 10 %<br>Min grade: -8 %<br>Recorded: 02/18/2012 7:57 AM<br>Activity type: -"
+      # text = "Total distance: 97.16 km (60.4 mi)<br>Total time: 5:42:27<br>Moving time: 3:56:26<br>Average speed: 17.02 km/h (10.6 mi/h)<br> Average moving speed: 24.66 km/h (15.3 mi/h)<br> Max speed: 60.30 km/h (37.5 mi/h)<br>Min elevation: -42 m (-138 ft)<br>Max elevation: 167 m (547 ft)<br>Elevation gain: 1420 m (4660 ft)<br>Max grade: 17 %<br>Min grade: -14 %<br>Recorded: 02/18/2012 7:57 AM<br>Activity type: -"
+      @ride.set_attributes_from_summary_text(text)
+      @ride.total_distance.should == 32.91
+      @ride.total_time.should==1*3600+8*60+12
+      @ride.moving_time.should==57*60+29
+      @ride.avg_speed.should==28.95
+      @ride.avg_moving_speed.should==34.35
+      @ride.max_speed.should==65.70
+      @ride.min_elevation.should==-10
+      @ride.max_elevation.should==173
+      @ride.elevation_gain.should==420
+      @ride.max_grade.should==10
+      @ride.min_grade.should==-8
+      @ride.recorded.should==DateTime.strptime("02/18/2012 7:57 am", '%m/%d/%Y %H:%M %p')
     end
 
     it "should parse fields (english)" do

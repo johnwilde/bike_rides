@@ -49,6 +49,7 @@ module RidesHelper
   end
 
   def temperature(ride)
+    return if !ride.weather
     data = JSON.parse(ride.weather)
     temp_m = data['tempm']
     temp_i = data['tempi']

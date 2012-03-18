@@ -35,7 +35,7 @@ describe "User" do
 
     @user = User.create_with_omniauth(omniauth)
     @user.email.should eq("myemail@google.com")
-    @user.uid.should eq("123")
+    @user.uid.should eq(123)
     @user.name.should eq("MyName")
   end
 
