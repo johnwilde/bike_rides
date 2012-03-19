@@ -58,6 +58,8 @@ describe "Ride" do
 
     it "should parse fields latest version (english)" do
       text = "Total distance: 32.91 km (20.4 mi)<br>Total time: 1:08:12<br>Moving time: 57:29<br>Average speed: 28.95 km/h (18.0 mi/h)<br> Average moving speed: 34.35 km/h (21.3 mi/h)<br> Max speed: 65.70 km/h (40.8 mi/h)<br>Min elevation: -10 m (-31 ft)<br>Max elevation: 173 m (569 ft)Elevation gain: 420 m (1378 ft)<br>Max grade: 10 %<br>Min grade: -8 %<br>Recorded: 02/18/2012 7:57 AM<br>Activity type: -"
+      # This also fails, but I don't have a test for it.  Maybe it's because of the 'pace' stats? 
+      #text = "Total distance: 4.12 km (2.6 mi)<br>Total time: 14:46<br>Moving time: 11:58<br>Average speed: 16.72 km/h (10.4 mi/h)<br>Average moving speed: 20.64 km/h (12.8 mi/h)<br>Max speed: 39.76 km/h (24.7 mi/h)<br>Average pace: 3.59 min/km (5.8 min/mi)<br>Average moving pace: 2.91 min/km (4.7 min/mi)<br>Min pace: 1.51 min/km (2.4 min/mi)<br>Max elevation: 35 m (114 ft)<br>Min elevation: -17 m (-55 ft)<br>Elevation gain: 86 m (282 ft)<br>Max grade: 21 %<br>Min grade: -12 %<br>Recorded: 12/09/2011 9:33 AM<br>Activity type: commute via north beach<br>"
       # text = "Total distance: 97.16 km (60.4 mi)<br>Total time: 5:42:27<br>Moving time: 3:56:26<br>Average speed: 17.02 km/h (10.6 mi/h)<br> Average moving speed: 24.66 km/h (15.3 mi/h)<br> Max speed: 60.30 km/h (37.5 mi/h)<br>Min elevation: -42 m (-138 ft)<br>Max elevation: 167 m (547 ft)<br>Elevation gain: 1420 m (4660 ft)<br>Max grade: 17 %<br>Min grade: -14 %<br>Recorded: 02/18/2012 7:57 AM<br>Activity type: -"
       @ride.set_attributes_from_summary_text(text)
       @ride.total_distance.should == 32.91

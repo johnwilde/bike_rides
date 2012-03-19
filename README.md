@@ -9,6 +9,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 
 
 ### The TODO list
+0. Bigger Maps!
 1. Robust search/filtering capability (currently can only search by user ID)
 2. Show multiple routes on a single map
 3. More interesting and customizable aggregate statistics on rides
@@ -38,6 +39,11 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 - to install (on OS X): brew install postgresql
 - to get status of server: pg\_ctl status -D /usr/local/var/postgres/
 - to list available databases: psql -l
+- to process the background jobs that fetch Temperature data from Weather
+  Underground: 
+  heroku run rake jobs:work 
+  Click on "Update Rides" in app (this puts rides without Temperature data on
+  the queue)
 
 ## General Resources ##
 <http://ruby.railstutorial.org/>  
