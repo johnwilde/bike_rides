@@ -8,7 +8,7 @@ gem 'rails', '3.1.0'
 gem 'gdata_plus', :git  => 'git://github.com/johnwilde/gdata_plus.git'
 gem 'ruby-openid'
 gem 'jquery-rails'
-gem "therubyracer"
+gem 'therubyracer'
 gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
 gem 'GeoRuby'
@@ -50,7 +50,7 @@ end
 group :assets do
   gem 'sass-rails', "  ~> 3.1.0"
   gem 'coffee-rails', "~> 3.1.0"
-  #gem 'uglifier'
+  gem 'uglifier'
 end
 
 

@@ -282,6 +282,9 @@ GEM
     typhoeus (0.3.3)
       mime-types
     tzinfo (0.3.32)
+    uglifier (1.2.3)
+      execjs (>= 0.3.0)
+      multi_json (>= 1.0.2)
     uuid (2.3.5)
       macaddr (~> 1.0)
     vegas (0.1.11)
@@ -320,4 +323,5 @@ DEPENDENCIES
   therubyracer
   thin
   turn
+  uglifier
   will_paginate!
