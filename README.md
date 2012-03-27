@@ -44,6 +44,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
   heroku run rake jobs:work 
   Click on "Update Rides" in app (this puts rides without Temperature data on
   the queue)
+- Check out the startft.rb script for using GData::FusionTables interface 
 
 ## General Resources ##
 <http://ruby.railstutorial.org/>  

@@ -6,5 +6,4 @@ module TestFt
   binding.pry
   T=Tables[0]
   G=T.select "geometry"
-
 end
