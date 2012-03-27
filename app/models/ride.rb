@@ -100,6 +100,11 @@ class Ride < ActiveRecord::Base
       ride=nil
       geometry = table.select "geometry"
       descriptions = table.select "description"
+
+      if (!descriptions_valid?( descriptions) )
+        return "No ride description"
+      end
+
       puts "Making ride #{table.id}"
       ride=user.rides.create({:fusiontable_id  => table.id,
                               :ridedata  => geometry.to_s})
@@ -147,6 +152,14 @@ class Ride < ActiveRecord::Base
                            :bb_sw_lon  => bb[0].lon,
                            :bb_ne_lat  =>  bb[1].lat,
                            :bb_ne_lon => bb[1].lon)
+  end
+
+  def descriptions_valid?(descriptions)
+    # Todo: make this robust
+    descriptions.each do |d|
+      return true if !d.nil?
+    end
+    return false
   end
 
   def set_ride_attributes(descriptions)

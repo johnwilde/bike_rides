@@ -19,9 +19,15 @@ describe "Ride" do
   end
 
   it "should make new ride from table" do
-    table=MockTable.new(1)
+    table=MockTable.new(1, 'geo.yml', 'description.yml')
     Ride.make_ride_from_table(table, @user)
     @user.rides.count.should eq(1)
+  end
+  
+  it "should not make new ride if no description field is in table", :focus => true do
+    table=MockTable.new(1, 'geo.yml', '')
+    Ride.make_ride_from_table(table, @user)
+    @user.rides.count.should eq(0)
   end
 
   it "should require ridedata" do
@@ -55,7 +61,23 @@ describe "Ride" do
     before(:each) do 
       @ride = @user.rides.create(@attr)
     end
-
+    # broken, and probably not worth fixing
+    # it "should parse time even if it doesn't have seconds field", :focus => true do
+    #   text = "Total distance: 32.91 km (20.4 mi)<br>Total time: 1:08<br>Moving time: 57:29<br>Average speed: 28.95 km/h (18.0 mi/h)<br> Average moving speed: 34.35 km/h (21.3 mi/h)<br> Max speed: 65.70 km/h (40.8 mi/h)<br>Min elevation: -10 m (-31 ft)<br>Max elevation: 173 m (569 ft)Elevation gain: 420 m (1378 ft)<br>Max grade: 10 %<br>Min grade: -8 %<br>Recorded: 02/18/2012 7:57 AM<br>Activity type: -"
+    #   @ride.set_attributes_from_summary_text(text)
+    #   @ride.total_distance.should == 32.91
+    #   @ride.total_time.should==1*3600+8*60
+    #   @ride.moving_time.should==57*60+29
+    #   @ride.avg_speed.should==28.95
+    #   @ride.avg_moving_speed.should==34.35
+    #   @ride.max_speed.should==65.70
+    #   @ride.min_elevation.should==-10
+    #   @ride.max_elevation.should==173
+    #   @ride.elevation_gain.should==420
+    #   @ride.max_grade.should==10
+    #   @ride.min_grade.should==-8
+    #   @ride.recorded.should==DateTime.strptime("02/18/2012 7:57 am", '%m/%d/%Y %H:%M %p')
+    # end
     it "should parse fields latest version (english)" do
       text = "Total distance: 32.91 km (20.4 mi)<br>Total time: 1:08:12<br>Moving time: 57:29<br>Average speed: 28.95 km/h (18.0 mi/h)<br> Average moving speed: 34.35 km/h (21.3 mi/h)<br> Max speed: 65.70 km/h (40.8 mi/h)<br>Min elevation: -10 m (-31 ft)<br>Max elevation: 173 m (569 ft)Elevation gain: 420 m (1378 ft)<br>Max grade: 10 %<br>Min grade: -8 %<br>Recorded: 02/18/2012 7:57 AM<br>Activity type: -"
       # This also fails, but I don't have a test for it.  Maybe it's because of the 'pace' stats? 
