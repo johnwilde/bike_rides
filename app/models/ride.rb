@@ -101,7 +101,7 @@ class Ride < ActiveRecord::Base
       geometry = table.select "geometry"
       descriptions = table.select "description"
 
-      if (!descriptions_valid?( descriptions) )
+      if !description_valid?(descriptions) 
         return "No ride description"
       end
 
@@ -154,10 +154,10 @@ class Ride < ActiveRecord::Base
                            :bb_ne_lon => bb[1].lon)
   end
 
-  def descriptions_valid?(descriptions)
+  def self.description_valid?(descriptions)
     # Todo: make this robust
     descriptions.each do |d|
-      return true if !d.nil?
+      return true if !d[:description].nil?
     end
     return false
   end
@@ -172,8 +172,8 @@ class Ride < ActiveRecord::Base
             # I'm doing this so I don't rely on specific words 
             if p.text.count(':') > 10
               set_attributes_from_summary_text(p.text)
-            # Leave this check for now, although it won't work for non-english users.
-            elsif (p.text =~ /^Created by My Tracks/) != 0
+            # Leave this check for now, although it is brittle 
+            elsif (p.text =~ /google/) != 0
               update_attribute(:description, p.text)
             end
           end
@@ -200,7 +200,14 @@ class Ride < ActiveRecord::Base
 #       + "<img border=\"0\" src=\"%s\"/>",
 #
 
-  def set_attributes_from_summary_text(text)
+  def set_attributes_from_summary_text(input)
+    splitted = input.split('<br>')
+    if ( splitted.length == 16 )
+      splitted.slice!(6..8) # remove the pace-related fields
+      text = splitted.join('<br>')
+    else
+      text = input
+    end
     text.gsub!('<br>', ' ')
     # remove the time strings like 2:23  or 23:32:22
     re=/\d+:\d+:*\d*/
@@ -219,7 +226,8 @@ class Ride < ActiveRecord::Base
     s[6]=a[12]
     s[7]=a[14]
     s[8]=a[15]
-    s.each {|n| n.sub!(",",".")}
+    # s.each {|n| n.sub!(",",".")}
+    s.collect! {|n| n.sub(",",".").to_f }
 
     datetext = text.split("%").last
     datetext.gsub!("Recorded: ","")
@@ -237,8 +245,8 @@ class Ride < ActiveRecord::Base
            :avg_speed  => s[1],
            :avg_moving_speed => s[2],
            :max_speed => s[3],
-           :min_elevation => s[4],
-           :max_elevation => s[5],
+           :min_elevation => [s[4], s[5]].min,
+           :max_elevation => [s[4], s[5]].max,
            :elevation_gain => s[6],
            :max_grade => s[7],
            :min_grade => s[8],
