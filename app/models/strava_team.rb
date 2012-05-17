@@ -7,8 +7,12 @@ class StravaTeam < ActiveRecord::Base
   @@api = StravaApi::Base.new
 
   def self.search_strava_for_team_name(search_string)
-    clubs = @@api.clubs(search_string)
-    return {:team_name => '', :strava_id => -1} if clubs.empty?
+    begin
+      clubs = @@api.clubs(search_string)
+    rescue
+      have_error = true
+    end
+    return {:team_name => '', :strava_id => -1} if have_error || clubs.empty?
     #just pick the first matching club
     details = @@api.club_show(clubs.first.id)
     {:team_name => details.name, :strava_id => details.id}

@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(:version => 20120516154349) do
 
   create_table "users", :force => true do |t|
     t.string   "provider"
+    t.string   "uid"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -80,7 +81,6 @@ ActiveRecord::Schema.define(:version => 20120516154349) do
     t.integer  "ride_id"
     t.string   "email"
     t.boolean  "use_metric_units"
-    t.string   "uid"
   end
 
 end
