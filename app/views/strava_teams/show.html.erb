@@ -1,0 +1,14 @@
+
+<p>
+  <b>Team Name:</b>
+  <%= @strava_team.team_name%>
+  <b>Last updated:</b>
+  <%= @strava_team.last_update_time.nil? ? "Never" : distance_of_time_in_words_to_now(@strava_team.last_update_time) + " ago" %>
+  <%= button_to 'Update Results', {:action => 'update', :controller => 'strava_teams'}, :method => :put %>
+</p>
+<p>
+  <b>Results for </b>
+  <%= Date::MONTHNAMES[@strava_team.updated_at.month]%>
+</p>
+<table id="results">
+

@@ -18,6 +18,9 @@ gem 'cancan'
 gem 'resque', :require => "resque/server"
 gem 'redis'
 gem 'pg'
+gem 'httparty', '0.6.1'
+gem 'strava-api'
+gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
 
 group :development do
   # user mongrel web server to handle the large oauth requests

@@ -1,0 +1,21 @@
+<%= form_for(@strava_team) do |f| %>
+  <% if @strava_team.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@strava_team.errors.count, "error") %> prohibited this strava_team from being saved:</h2>
+
+      <ul>
+      <% @strava_team.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :team_name %><br />
+    <%= f.text_field :team_name %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

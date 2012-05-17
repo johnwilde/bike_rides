@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111031081232) do
+ActiveRecord::Schema.define(:version => 20120516154349) do
 
   create_table "rides", :force => true do |t|
     t.integer  "fusiontable_id"
@@ -43,6 +43,31 @@ ActiveRecord::Schema.define(:version => 20111031081232) do
   end
 
   add_index "rides", ["user_id", "created_at"], :name => "index_rides_on_user_id_and_created_at"
+
+  create_table "strava_teams", :force => true do |t|
+    t.string   "team_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "strava_id"
+    t.datetime "last_update_time"
+  end
+
+  create_table "team_members", :force => true do |t|
+    t.integer  "strava_member_id"
+    t.string   "name"
+    t.integer  "strava_team_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "team_rides", :force => true do |t|
+    t.integer  "strava_ride_id"
+    t.integer  "elevation_gain"
+    t.integer  "team_member_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "start_date"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "provider"

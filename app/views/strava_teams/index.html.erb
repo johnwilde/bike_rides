@@ -1,0 +1,16 @@
+<h1>Listing teams</h1>
+
+<table>
+
+<% @strava_teams.each do |strava_team| %>
+  <tr>
+    <td><%= strava_team.team_name %></td>
+    <td><%= link_to 'Show', strava_team %></td>
+    <td><%= link_to 'Destroy', strava_team, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New team', new_strava_team_path %>

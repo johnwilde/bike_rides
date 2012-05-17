@@ -32,6 +32,13 @@ GIT
   specs:
     will_paginate (3.0.3)
 
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: 9e88f3c3a858a29492adb710e4801b8f19205ead
+  specs:
+    jquery-datatables-rails (1.9.1.3)
+      jquery-rails
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -90,6 +97,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.2.0)
+    crack (0.1.8)
     daemons (1.1.8)
     diff-lcs (1.1.3)
     erubis (2.7.0)
@@ -117,6 +125,8 @@ GEM
       guard (>= 0.10.0)
       spork (>= 0.8.4)
     hike (1.2.1)
+    httparty (0.6.1)
+      crack (= 0.1.8)
     i18n (0.6.0)
     jquery-rails (1.0.19)
       railties (~> 3.0)
@@ -132,6 +142,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.7.1)
     mime-types (1.17.2)
+    mocha (0.9.12)
     multi_json (1.0.4)
     multi_xml (0.4.1)
     multipart-post (1.1.5)
@@ -265,6 +276,9 @@ GEM
       hike (~> 1.2)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
+    strava-api (0.14.0)
+      httparty (~> 0.6.1)
+      mocha (~> 0.9.8)
     systemu (2.4.2)
     therubyracer (0.9.10)
       libv8 (~> 3.3.10)
@@ -307,6 +321,8 @@ DEPENDENCIES
   gdata_plus!
   guard-rspec
   guard-spork
+  httparty (= 0.6.1)
+  jquery-datatables-rails!
   jquery-rails
   nifty-generators
   omniauth (= 0.3.2)
@@ -319,6 +335,7 @@ DEPENDENCIES
   ruby-openid
   sass-rails (~> 3.1.0)
   spork (> 0.9.0.rc)
+  strava-api
   table_builder (= 0.0.3)!
   therubyracer
   thin
