@@ -20,7 +20,7 @@ gem 'redis'
 gem 'pg'
 gem 'httparty', '0.6.1'
 gem 'strava-api'
-gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+gem 'jquery-datatables-rails', :git => 'git://github.com/rweng/jquery-datatables-rails'
 
 group :development do
   # user mongrel web server to handle the large oauth requests

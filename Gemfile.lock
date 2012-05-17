@@ -33,7 +33,7 @@ GIT
     will_paginate (3.0.3)
 
 GIT
-  remote: git://github.com/rweng/jquery-datatables-rails.git
+  remote: git://github.com/rweng/jquery-datatables-rails
   revision: 9e88f3c3a858a29492adb710e4801b8f19205ead
   specs:
     jquery-datatables-rails (1.9.1.3)
