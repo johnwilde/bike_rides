@@ -3,12 +3,12 @@ require 'strava-api'
 class StravaTeam < ActiveRecord::Base
   attr_accessible :team_name, :strava_id, :last_update_time
   has_many :team_members, :dependent  => :destroy
-  validates(:team_name, presence: true)
+  validates :team_name, :presence => { :message => "Couldn't find a club on Strava with this name" }
   @@api = StravaApi::Base.new
 
   def self.search_strava_for_team_name(search_string)
     clubs = @@api.clubs(search_string)
-    return nil if clubs.empty?
+    return {:team_name => '', :strava_id => -1} if clubs.empty?
     #just pick the first matching club
     details = @@api.club_show(clubs.first.id)
     {:team_name => details.name, :strava_id => details.id}

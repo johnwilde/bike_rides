@@ -17,7 +17,6 @@ class StravaTeamsController < ApplicationController
   
   def create
     team_params = StravaTeam.search_strava_for_team_name(params[:strava_team][:team_name])
-    render 'new' if team_params.nil?
     @strava_team = StravaTeam.new(team_params)
     if @strava_team.save
       redirect_to @strava_team, :flash => { :success => "Team created. Click to process (may take a while for a large team!)." }

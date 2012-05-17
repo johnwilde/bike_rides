@@ -1,11 +1,11 @@
 <%= form_for(@strava_team) do |f| %>
   <% if @strava_team.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@strava_team.errors.count, "error") %> prohibited this strava_team from being saved:</h2>
+    <h2>Searched for <%= "\"#{params[:strava_team][:team_name]}\" but " + pluralize(@strava_team.errors.count, "error") %> prohibited a team from being created:</h2>
 
       <ul>
-      <% @strava_team.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @strava_team.errors.each_with_index do |msg, i| %>
+        <li><%= msg[1] %></li>
       <% end %>
       </ul>
     </div>

@@ -11,4 +11,22 @@
   <%= Date::MONTHNAMES[@strava_team.updated_at.month]%>
 </p>
 <table id="results">
-
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Elevation (m)</th>
+      <th>Rides</th>
+      <th>Elevation per ride (m)</th>
+  </tr>
+</thead>
+<tbody>
+  <% @strava_team.team_members.each do |member| %>
+    <tr>
+      <td><%= member.name %></td>
+      <td><%= member.elevation_total %></td>
+      <td><%= member.ride_count %></td>
+      <td><%= member.elevation_average %></td>
+    </tr>
+  <% end %>
+  <tbody>
+</table>
