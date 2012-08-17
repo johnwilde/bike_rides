@@ -33,6 +33,7 @@ class Weather
 
     date_string = datetime.strftime("%Y%m%d")
     url = 'http://api.wunderground.com/api/' + WUNDERGROUND_KEY + '/history_' + date_string + '/geolookup/conditions/q/' + lat.to_s + ',' + lon.to_s + '.json'
+    puts "query: #{url}"
 
     open(url) do |f| 
       json_string = f.read 
