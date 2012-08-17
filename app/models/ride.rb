@@ -127,7 +127,8 @@ class Ride < ActiveRecord::Base
   end
 
   def recorded_localtime
-    recorded.getlocal
+    # rides are saved using local time
+    recorded
   end
 
   def compute_bounding_box()
