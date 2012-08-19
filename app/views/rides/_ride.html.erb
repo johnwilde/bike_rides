@@ -10,17 +10,24 @@
   <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 
     lat="<%=ride.centroid_lat%>" lon="<%=ride.centroid_lon%>" sw_lat="<%=ride.bb_sw_lat%>" sw_lon="<%=ride.bb_sw_lon%>" ne_lat="<%=ride.bb_ne_lat%>" ne_lon="<%=ride.bb_ne_lon%>"></div>
   </td>
-  <td class="notes">
+</tr>
+<tr>
     <% if can? :update, ride %>
       <%= form_for ride  do |f| %>
+      <td class="notes">
         <%= f.label :description, "Public notes:" %><br/>
         <%= f.text_area :description, :class  => 'public_notes' %><br/>
+    </td>
+      <td class="notes">
         <%= f.label :private_description, "Private notes:" %><br/>
         <%= f.text_area :private_description, :class => 'private_notes' %><br/>
         <%= f.submit :value => "Save", :method => :put %>
+    </td>
       <% end %>
     <% else %>
+  <td class="notes">
       <%= text_area_tag "description", ride.description, :class  => 'public_notes_readonly', :readonly => true %>
+    </td>
     <% end %>
   </td>
   <td class="ride-stats" >
