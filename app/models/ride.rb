@@ -111,7 +111,6 @@ class Ride < ActiveRecord::Base
       if (!ride.valid?)
         return "No geometry data"
       end
-
       ride.set_ride_attributes(descriptions)
       ride.compute_bounding_box()
     rescue
@@ -231,8 +230,8 @@ class Ride < ActiveRecord::Base
     s.collect! {|n| n.sub(",",".").to_f }
 
     datetext = text.split("%").last
-    datetext.gsub!("Recorded: ","")
-    datetext.gsub!("Activity type: -","")
+    datetext.gsub!(/Recorded: /,"")
+    datetext.gsub!(/Activity type:.*/,"")
     # hack to parse date
     if ( datetext.include?('/') )
         datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"

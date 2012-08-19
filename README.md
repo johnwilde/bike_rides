@@ -35,6 +35,9 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 - bundle install
 - bundle exec rake db:migrate
 - bundle exec rake db:test:prepare
+- bundle exec thin start (for development use thin instead of webrick, works
+    with the google auth)
+- edit /etc/hosts file
 - Postgresql is the DB, some helpful commands:
 - to install (on OS X): brew install postgresql
 - to get status of server: pg\_ctl status -D /usr/local/var/postgres/

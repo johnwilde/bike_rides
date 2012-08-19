@@ -2,7 +2,9 @@
 <tr>
   <td>
     <b><%= ride.recorded_localtime.to_s(:ride_time) %></b>
-    <%  uri = URI::HTTPS.build({:host => "www.google.com", :path => "/fusiontables/DataSource", :query => "dsrcid=#{ride.fusiontable_id}" }).to_s %>
+    <%  uri = URI::HTTPS.build({:host => "www.google.com", :path => "/fusiontables/data", 
+                                :query => "dsrcid=#{ride.fusiontable_id}",
+                                :fragment => "map:id=3" }).to_s %>
     <%= link_to "(link)", uri %>
     <%= temperature(ride) %>&deg; <%= temp_units %>
   <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 
