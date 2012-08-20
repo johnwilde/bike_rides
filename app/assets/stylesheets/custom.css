@@ -214,12 +214,8 @@ table.rides{
   border: 2px;
 }
 td.notes{
-  border: 2px solid black;
-  padding: 0;
-  padding-top: 0px;
-  padding-bottom:  0px;
-  padding-left:  0px;
-  padding-right:  0px;
+  /* border: 2px solid black; */
+  vertical-align: top;
 }
 td.stat-label{
   font-weight: bold;
@@ -233,14 +229,8 @@ td.stat-units{
 table.ride-stats{
  border: 1px solid black; 
 }
-.private_notes{
-height: 50%;
-}
-.public_notes{
-height: 50%;
-}
-.public_notes_readonly{
-height: 90%;
+textarea.public_notes, textarea.private_notes, textarea.public_notes_readonly{
+  height: 110px;
 }
 
 .digg_pagination{

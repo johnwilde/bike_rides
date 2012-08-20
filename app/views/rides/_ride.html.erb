@@ -39,7 +39,8 @@
       <th>Ride Stats</th>
     </tr>
     <td colspan="2"class="notes">
-      <%= text_area_tag "description", ride.description, :class  => 'public_notes_readonly', :readonly => true %>
+      <%= text_area_tag "description", ride.description, 
+        :class  => 'public_notes_readonly', :readonly => true %>
     </td>
   <% end %>
   <td class="notes" >
