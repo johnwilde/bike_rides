@@ -1,36 +1,48 @@
 <table class="ride" >
-<tr>
-  <td>
-    <b><%= ride.recorded_localtime.to_s(:ride_time) %></b>
-    <%  uri = URI::HTTPS.build({:host => "www.google.com", :path => "/fusiontables/data", 
-                                :query => "dsrcid=#{ride.fusiontable_id}",
-                                :fragment => "map:id=3" }).to_s %>
+  <tr>
+    <td colspan="3">
+      <b><%= ride.recorded_localtime.to_s(:ride_time) %></b>
+      <%  uri = URI::HTTPS.build({:host => "www.google.com", :path => "/fusiontables/data", 
+                                  :query => "dsrcid=#{ride.fusiontable_id}",
+      :fragment => "map:id=3" }).to_s %>
     <%= link_to "(link)", uri %>
     <%= temperature(ride) %>&deg; <%= temp_units %>
-  <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 
-    lat="<%=ride.centroid_lat%>" lon="<%=ride.centroid_lon%>" sw_lat="<%=ride.bb_sw_lat%>" sw_lon="<%=ride.bb_sw_lon%>" ne_lat="<%=ride.bb_ne_lat%>" ne_lon="<%=ride.bb_ne_lon%>"></div>
+    <div class="ft_map" ft_id="<%= ride.fusiontable_id %>" 
+      lat="<%=ride.centroid_lat%>" 
+      lon="<%=ride.centroid_lon%>" 
+      sw_lat="<%=ride.bb_sw_lat%>" 
+      sw_lon="<%=ride.bb_sw_lon%>" 
+      ne_lat="<%=ride.bb_ne_lat%>" 
+      ne_lon="<%=ride.bb_ne_lon%>">
+    </div>
   </td>
 </tr>
-<tr>
-    <% if can? :update, ride %>
-      <%= form_for ride  do |f| %>
+<% if can? :update, ride %>
+  <tr>
+    <th>Public Notes</th>
+    <th>Private Notes</th>
+    <th>Ride Stats</th>
+  </tr>
+  <tr>
+    <%= form_for ride  do |f| %>
       <td class="notes">
-        <%= f.label :description, "Public notes:" %><br/>
         <%= f.text_area :description, :class  => 'public_notes' %><br/>
-    </td>
+      </td>
       <td class="notes">
-        <%= f.label :private_description, "Private notes:" %><br/>
         <%= f.text_area :private_description, :class => 'private_notes' %><br/>
         <%= f.submit :value => "Save", :method => :put %>
-    </td>
-      <% end %>
-    <% else %>
-  <td class="notes">
+      </td>
+    <% end %>
+  <% else %>
+    <tr>
+      <th>Public Notes</th>
+      <th>Ride Stats</th>
+    </tr>
+    <td colspan="2"class="notes">
       <%= text_area_tag "description", ride.description, :class  => 'public_notes_readonly', :readonly => true %>
     </td>
-    <% end %>
-  </td>
-  <td class="ride-stats" >
+  <% end %>
+  <td class="notes" >
     <table class="ride-stats">
       <tr>
         <td class="stat-label">Total distance</td>
@@ -61,8 +73,8 @@
     <% if can? :destroy , ride %>
       <%= button_to "Delete Ride", { :action => 'destroy', :id => ride.id}, :method => :delete %>
     <% end %>
-  </td>
-</tr>
+  </tr>
+</td>
 
 
 </table>
