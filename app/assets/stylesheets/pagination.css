@@ -1,6 +1,7 @@
 .digg_pagination {
   background: white;
   cursor: default;
+  float:right;
   /* self-clearing method: */ }
   .digg_pagination a, .digg_pagination span, .digg_pagination em {
     padding: 0.2em 0.5em;
@@ -27,7 +28,7 @@
     background: #2e6ab1;
     color: white;
     padding: 0.4em 0.6em;
-    width: 22em;
+    width: auto;
     margin-bottom: 0.3em;
     text-align: center; }
     .digg_pagination .page_info b {
