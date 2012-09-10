@@ -21,12 +21,13 @@ class UsersController < ApplicationController
   
   def login
     session[:return_to] = params[:return_to] if params[:return_to]
-    if Rails.env.development?
-      session[:user_id] = User.first.id
-      redirect_to_target_or_default root_url, :notice => "Signed in successfully"
-    else
-      redirect_to "/auth/google_hybrid"
-    end
+      redirect_to "/auth/google_oauth2"
+    # if Rails.env.development?
+    #   session[:user_id] = User.first.id
+    #   redirect_to_target_or_default root_url, :notice => "Signed in successfully"
+    # else
+    #   redirect_to "/auth/google_hybrid"
+    # end
   end
   
   def edit

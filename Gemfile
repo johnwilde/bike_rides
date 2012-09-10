@@ -5,14 +5,15 @@ gem 'rails', '3.1.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'gdata_plus', :git  => 'git://github.com/johnwilde/gdata_plus.git'
 gem 'ruby-openid'
 gem 'jquery-rails'
 gem 'therubyracer'
 gem 'fusion_tables', :git  => 'git://github.com/johnwilde/fusion_tables.git'
 gem 'will_paginate', :git  => 'git://github.com/mislav/will_paginate.git'
-gem 'GeoRuby'
-gem 'omniauth', '0.3.2'
+gem 'georuby'
+gem 'dbf' #needed by georuby
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
 gem 'table_builder', '0.0.3', :git => 'git://github.com/jchunky/table_builder.git' 
 gem 'cancan'
 gem 'resque', :require => "resque/server"
@@ -21,6 +22,7 @@ gem 'pg'
 gem 'httparty', '0.6.1'
 gem 'strava-api'
 gem 'jquery-datatables-rails', :git => 'git://github.com/rweng/jquery-datatables-rails'
+gem 'google-api-client'
 
 group :development do
   # user mongrel web server to handle the large oauth requests

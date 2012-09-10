@@ -30,9 +30,8 @@
 #  private_description :text
 #
 
+# require 'geo_ruby/simple_features'
 require 'geo_ruby'
-require 'gdata_plus'
-require 'nokogiri'
 
 class Ride < ActiveRecord::Base
   # make everything accessible
@@ -53,23 +52,6 @@ class Ride < ActiveRecord::Base
     end
   end
 
-  def self.get_fusiontable(user)
-    authenticator = get_authenticator(user)
-    gdataplus_client=GDataPlus::Client.new(authenticator, "3.0")
-    ft=GData::Client::FusionTables.new
-    ft.auth_handler=authenticator
-    return ft
-  end
-
-  def self.get_authenticator(user)
-    GDataPlus::Authenticator::OAuth.new(
-      :consumer_key => CONSUMER_KEY,
-      :consumer_secret => CONSUMER_SECRET,
-      :access_token => user.token,
-      :access_secret => user.secret
-    )
-  end
- 
   def self.make_rides_from_fusiontables(user)
     ft = get_fusiontable(user)
     tables=ft.show_tables
@@ -95,23 +77,19 @@ class Ride < ActiveRecord::Base
     out_s << "Created #{helpers.pluralize(n,'ride')}."
   end
 
-  def self.make_ride_from_table(table, user)
+  def self.make_ride_from_table(id, table, user)
     begin
       ride=nil
-      geometry = table.select "geometry"
-      descriptions = table.select "description"
+      attr_arr = table["rows"].collect {|r| r[1]}.grep(/mytracks/).first.split('<br>')
+      geometry = table["rows"].collect {|r| r[2]}
 
-      if !description_valid?(descriptions) 
-        return "No ride description"
-      end
-
-      puts "Making ride #{table.id}"
-      ride=user.rides.create({:fusiontable_id  => table.id,
+      puts "Making ride #{id}"
+      ride=user.rides.create({:fusiontable_id  => id,
                               :ridedata  => geometry.to_s})
       if (!ride.valid?)
         return "No geometry data"
       end
-      ride.set_ride_attributes(descriptions)
+      ride.set_ride_attributes(attr_arr)
       ride.compute_bounding_box()
     rescue
       if !ride.nil?
@@ -135,6 +113,7 @@ class Ride < ActiveRecord::Base
     max_segment = nil
     max_count = 0
     data=eval ridedata
+    binding.pry
     data.each do |i|
       geo = GeoRuby::SimpleFeatures::Geometry::from_kml(i[:geometry])
       if geo.class==GeoRuby::SimpleFeatures::LineString and geo.count > max_count
@@ -162,98 +141,45 @@ class Ride < ActiveRecord::Base
     return false
   end
 
-  def set_ride_attributes(descriptions)
-    descriptions.each do |d|
-      if !d.nil?
-        ptag=Nokogiri::HTML(d[:description]).css("p")
-        ptag.each do |p|
-          if ( !p.nil? )
-            # Hack in which I assume the presence of ':' indicates summary data to parse
-            # I'm doing this so I don't rely on specific words 
-            if p.text.count(':') > 10
-              set_attributes_from_summary_text(p.text)
-            # Leave this check for now, although it is brittle 
-            elsif (p.text =~ /google/) != 0
-              update_attribute(:description, p.text)
-            end
-          end
-        end
-      end
-    end
-  end
-
-# Note: this is the formatting used by MyTracks, found here:
-#   MyTracks/src/com/google/android/apps/mytracks/util/StringUtils.java
-#
-#    return String.format("%s<p>"
-#       + "%s: %.2f %s (%.1f %s)<br>"
-#       + "%s: %s<br>"
-#       + "%s: %s<br>"
-#       + "%s %s %s"
-#       + "%s: %d %s (%d %s)<br>"
-#       + "%s: %d %s (%d %s)<br>"
-#       + "%s: %d %s (%d %s)<br>"
-#       + "%s: %d %%<br>"
-#       + "%s: %d %%<br>"
-#       + "%s: %tc<br>"
-#       + "%s: %s<br>"
-#       + "<img border=\"0\" src=\"%s\"/>",
-#
-
-  def set_attributes_from_summary_text(input)
-    splitted = input.split('<br>')
-    if ( splitted.length == 16 )
-      splitted.slice!(6..8) # remove the pace-related fields
-      text = splitted.join('<br>')
-    else
-      text = input
-    end
-    text.gsub!('<br>', ' ')
-    # remove the time strings like 2:23  or 23:32:22
-    re=/\d+:\d+:*\d*/
-    a=text.gsub(re,"")
-    b=text.scan(re)  # save the matches for parsing later
-
-    # this regexp finds numbers like: 1.23 or or -3 or +3
-    a=a.scan(/[+-]?\d*\.?,?\d+/)
-    s=[]
-    s[0]=a[0]
-    s[1]=a[2] 
-    s[2]=a[4] 
-    s[3]=a[6] 
-    s[4]=a[8]
-    s[5]=a[10]
-    s[6]=a[12]
-    s[7]=a[14]
-    s[8]=a[15]
-    # s.each {|n| n.sub!(",",".")}
-    s.collect! {|n| n.sub(",",".").to_f }
-
-    datetext = text.split("%").last
-    datetext.gsub!(/Recorded: /,"")
-    datetext.gsub!(/Activity type:.*/,"")
+  def set_ride_attributes(attr_arr)
+# # table["rows"].collect {|r| r[1]}.grep(/mytracks/).first.split('<br>')
+# 0 # => ["Created by <a href='http://www.google.com/mobile/mytracks'>My Tracks</a> on Android.<p>Name: 08/26/2012 8:57am",
+# 1 #  "Activity type: -",
+# 2 #  "Description: -",
+# 3 #  "Total distance: 132.20 km (82.1 mi)",
+# 4 #  "Total time: 8:04:02",
+# 5 #  "Moving time: 5:49:20",
+# 6 #  "Average speed: 16.39 km/h (10.2 mi/h)",
+# 7 #  "Average moving speed: 22.71 km/h (14.1 mi/h)",
+# 8 #  "Max speed: 53.10 km/h (33.0 mi/h)",
+# 9 #  "Average pace: 3.66 min/km (5.9 min/mi)",
+# 10  #  "Average moving pace: 2.64 min/km (4.3 min/mi)",
+# 11  #  "Fastest pace: 1.13 min/km (1.8 min/mi)",
+# 12  #  "Max elevation: 439 m (1441 ft)",
+# 13  #  "Min elevation: -38 m (-126 ft)",
+# 14  #  "Elevation gain: 2049 m (6723 ft)",
+# 15  #  "Max grade: 13 %",
+# 16  #  "Min grade: -16 %",
+# 17  #  "Recorded: 08/26/2012 8:57am",
+    
     # hack to parse date
+    datetext = attr_arr[17].split(':',2).last
     if ( datetext.include?('/') )
         datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"
     else
         datetime = DateTime.parse( datetext ); # "Tue Aug 23 06:32:43 PDT 2011"
     end
 
-    attr={ :total_distance  => s[0],
-           :total_time  => Ride.timestring_to_sec(b[0]),
-           :moving_time  => Ride.timestring_to_sec(b[1]),
-           :avg_speed  => s[1],
-           :avg_moving_speed => s[2],
-           :max_speed => s[3],
-           :min_elevation => [s[4], s[5]].min,
-           :max_elevation => [s[4], s[5]].max,
-           :elevation_gain => s[6],
-           :max_grade => s[7],
-           :min_grade => s[8],
-           :recorded => datetime } 
-
+    attr = { 
+      :total_distance => attr_arr[3].split(':').last.split(' ').first.to_f,
+      :moving_time =>  Ride.timestring_to_sec(attr_arr[5].split(':',2).last),
+      :avg_moving_speed => attr_arr[7].split(':').last.split(' ').first.to_f,
+      :elevation_gain => attr_arr[14].split(':').last.split(' ').first.to_f,
+      :recorded => datetime
+    }
+    binding.pry
     update_attributes!(attr)
-  
+ 
   end
 
   def self.timestring_to_sec(time)

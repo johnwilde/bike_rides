@@ -1,37 +1,40 @@
-Factory.define :user do |user|
-  user.name "Test User"
-  user.email "testuser@gmail.org"
-  user.provider   "google_hybrid"
-  user.sequence(:uid) { |n| n }
+FactoryGirl.define do
+  factory :user do 
+    name "Test User"
+    email "testuser@gmail.org"
+    provider   "google_oauth2"
+    sequence(:uid) { |n| n }
+  end
+
+  factory :ride  do
+    fusiontable_id     "123123"
+    association :user
+    ridedata '[{:geometry=>"<Point><coordinates>-122.170504,37.424195,13.0</coordinates></Point>"}, {:geometry=>"<LineString><coordinates>-122.170504,37.424195,13.0 -122.170533,37.423975,16.20</coordinates></LineString>"}, {:geometry=>"<Point><coordinates>-122.171136,37.360698,270.79998779296875</coordinates></Point>"}]'
+    centroid_lat       "37.4"
+    centroid_lon       "-122.16" 
+    bb_sw_lat          "37.36"   
+    bb_sw_lon          "-122.17" 
+    bb_ne_lat          "37.42"   
+    bb_ne_lon          "-122.15" 
+    description        "description"
+    total_distance     "1.5"  
+    total_time         "1"    
+    moving_time        "1"    
+    avg_speed          "10"   
+    avg_moving_speed   "10"
+    max_speed          "10" 
+    min_elevation      "10" 
+    max_elevation      "10" 
+    elevation_gain     "10" 
+    max_grade          "10" 
+    min_grade          "10" 
+    recorded           "2011-10-07 02:30:44.000000"  
+    private_description     "private note"
+  end
+
+  sequence :uid do |n|
+    SecureRandom.hex(16)
+  end
+
 end
 
-Factory.sequence :uid do |n|
-  SecureRandom.hex(16)
-end
-
-Factory.define :ride do |ride|
-  ride.fusiontable_id     "123123"
-  ride.association :user
-  #ride.user_id             :integer
-  ride.ridedata '[{:geometry=>"<Point><coordinates>-122.170504,37.424195,13.0</coordinates></Point>"}, {:geometry=>"<LineString><coordinates>-122.170504,37.424195,13.0 -122.170533,37.423975,16.20</coordinates></LineString>"}, {:geometry=>"<Point><coordinates>-122.171136,37.360698,270.79998779296875</coordinates></Point>"}]'
-  ride.centroid_lat       "37.4"
-  ride.centroid_lon       "-122.16" 
-  ride.bb_sw_lat          "37.36"   
-  ride.bb_sw_lon          "-122.17" 
-  ride.bb_ne_lat          "37.42"   
-  ride.bb_ne_lon          "-122.15" 
-  ride.description        "description"
-  ride.total_distance     "1.5"  
-  ride.total_time         "1"    
-  ride.moving_time        "1"    
-  ride.avg_speed          "10"   
-  ride.avg_moving_speed   "10"
-  ride.max_speed          "10" 
-  ride.min_elevation      "10" 
-  ride.max_elevation      "10" 
-  ride.elevation_gain     "10" 
-  ride.max_grade          "10" 
-  ride.min_grade          "10" 
-  ride.recorded           "2011-10-07 02:30:44.000000"  
-  ride.private_description     "private note"
-end

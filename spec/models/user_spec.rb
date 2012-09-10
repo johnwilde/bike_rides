@@ -28,12 +28,14 @@ describe "User" do
   end
 
   it "should create a user from omniauth hash" do
-    omniauth = {"provider" => "google_hybrd", "uid" => "a123d", "user_info" => {}, "credentials" => {}}
-    omniauth["user_info"] = 
+    auth = {"uid" => "a123d", "provider" => "google_oauth2"}
+    auth["info"] = 
       {"name" => "MyName",
        "email" => "myemail@google.com"}
-
-    @user = User.create_with_omniauth(omniauth)
+    auth["extra"] = {"raw_info" => {
+     "picture"=> "https://lh4.googleusercontent.com/-FC2gR_Eh7FI/AAAAAAAAAAI/AAAAAAAAGCw/nudXajQVy50/photo.jpg",
+     "gender"=>"male"}}
+    @user = User.create_with_omniauth(auth)
     @user.email.should eq("myemail@google.com")
     @user.uid.should eq("a123d")
     @user.name.should eq("MyName")
@@ -47,8 +49,8 @@ describe "User" do
   describe "ride associations" do
     before(:each) do
       @user = User.create(@attr)
-      @r1 = Factory(:ride, :user => @user, :recorded => 1.day.ago)
-      @r2 = Factory(:ride, :user => @user, :recorded => 1.hour.ago)
+      @r1 = FactoryGirl.build(:ride, :user => @user, :recorded => 1.day.ago)
+      @r2 = FactoryGirl.build(:ride, :user => @user, :recorded => 1.hour.ago)
     end
 
     it "should have the rides in the right order" do
