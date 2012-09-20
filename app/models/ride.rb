@@ -67,6 +67,10 @@ class Ride < ActiveRecord::Base
     search(user).map(&:google_table_id)
   end
 
+  def self.new_table_ids_for_user(user, table_list_json)
+    table_list_json["items"].map{|i| i["tableId"]} -
+      table_ids_for_user(user)
+  end
 
   def self.make_rides_from_fusiontables(user)
     ft = get_fusiontable(user)

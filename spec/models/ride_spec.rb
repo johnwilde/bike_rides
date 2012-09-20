@@ -28,16 +28,18 @@ describe "Ride" do
     end
     it "gets array of table ids for a user" do
       @user.rides.create!(@attr)
-      @attr.merge!({ :google_table_id  => "2Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34"})
+      @attr.merge!({ :google_table_id  => "18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"})
       @user.rides.create!(@attr)
       Ride.table_ids_for_user(@user).should == 
         [ "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34",
-          "2Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34"]
+          "18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"]
     end
 
-    # it "gets array of table ids that for rides we don't have" do
-    #   
-    # end
+    it "gets array of table ids that for rides we don't have" do
+      @user.rides.create!(@attr)
+      Ride.new_table_ids_for_user(@user, @table_list).should ===
+        ["18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"]
+    end
 
     
   end
