@@ -1,0 +1,69 @@
+{
+ "kind": "fusiontables#tableList",
+ "items": [
+  {
+   "kind": "fusiontables#table",
+   "tableId": "18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA",
+   "name": "09/19/2012 6:22am",
+   "columns": [
+    {
+     "kind": "fusiontables#column",
+     "columnId": 0,
+     "name": "name",
+     "type": "STRING"
+    },
+    {
+     "kind": "fusiontables#column",
+     "columnId": 1,
+     "name": "description",
+     "type": "STRING"
+    },
+    {
+     "kind": "fusiontables#column",
+     "columnId": 2,
+     "name": "geometry",
+     "type": "LOCATION"
+    },
+    {
+     "kind": "fusiontables#column",
+     "columnId": 3,
+     "name": "marker",
+     "type": "STRING"
+    }
+   ],
+   "isExportable": true
+  },
+  {
+   "kind": "fusiontables#table",
+   "tableId": "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34",
+   "name": "09/14/2012 4:21pm",
+   "columns": [
+    {
+     "kind": "fusiontables#column",
+     "columnId": 0,
+     "name": "name",
+     "type": "STRING"
+    },
+    {
+     "kind": "fusiontables#column",
+     "columnId": 1,
+     "name": "description",
+     "type": "STRING"
+    },
+    {
+     "kind": "fusiontables#column",
+     "columnId": 2,
+     "name": "geometry",
+     "type": "LOCATION"
+    },
+    {
+     "kind": "fusiontables#column",
+     "columnId": 3,
+     "name": "marker",
+     "type": "STRING"
+    }
+   ],
+   "isExportable": true
+  }
+ ]
+}

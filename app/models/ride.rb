@@ -37,8 +37,19 @@ class Ride < ActiveRecord::Base
   # make everything accessible
   #attr_accessible 
   belongs_to :user
-  validates :fusiontable_id, :ridedata, :presence  => true
+  validates :google_table_id, :ridedata, :presence  => true
   default_scope :order  => 'rides.recorded DESC'
+
+  def initialize(params, options)
+    super
+    set_attributes
+    compute_bounding_box
+    puts "Created ride with duration: #{moving_time}"
+  end
+
+  def rows
+      ridedata["rows"]
+  end
 
   def self.helpers
     ActionController::Base.helpers
@@ -51,6 +62,11 @@ class Ride < ActiveRecord::Base
       find(:all)
     end
   end
+
+  def self.table_ids_for_user(user)
+    search(user).map(&:google_table_id)
+  end
+
 
   def self.make_rides_from_fusiontables(user)
     ft = get_fusiontable(user)
@@ -80,17 +96,13 @@ class Ride < ActiveRecord::Base
   def self.make_ride_from_table(id, table, user)
     begin
       ride=nil
-      attr_arr = table["rows"].collect {|r| r[1]}.grep(/mytracks/).first.split('<br>')
-      geometry = table["rows"].collect {|r| r[2]}
 
       puts "Making ride #{id}"
-      ride=user.rides.create({:fusiontable_id  => id,
-                              :ridedata  => geometry.to_s})
+      ride=user.rides.create({:google_table_id  => id,
+                              :ridedata  => table})
       if (!ride.valid?)
         return "No geometry data"
       end
-      ride.set_ride_attributes(attr_arr)
-      ride.compute_bounding_box()
     rescue
       if !ride.nil?
         ride.destroy
@@ -108,29 +120,23 @@ class Ride < ActiveRecord::Base
     recorded
   end
 
-  def compute_bounding_box()
-    tmp = []
-    max_segment = nil
-    max_count = 0
-    data=eval ridedata
-    binding.pry
-    data.each do |i|
-      geo = GeoRuby::SimpleFeatures::Geometry::from_kml(i[:geometry])
-      if geo.class==GeoRuby::SimpleFeatures::LineString and geo.count > max_count
-        max_segment=geo
-        max_count=geo.count
-      end
-      tmp << geo
+  def compute_bounding_box
+    begin
+      lines = rows.collect {|r| r[2]["geometry"]}.
+        keep_if {|r| r["type"] == "LineString"}
+      tmp = lines.map {|i| GeoRuby::SimpleFeatures::Geometry::
+                       from_geojson(i.to_json)}
+      gc = GeoRuby::SimpleFeatures::GeometryCollection.from_geometries(tmp)
+      bb = gc.envelope
+      update_attributes(:centroid_lat  => bb.center.lat,
+                        :centroid_lon  => bb.center.lon,
+                        :bb_sw_lat  => bb.lower_corner.lat,
+                        :bb_sw_lon  => bb.lower_corner.lon, 
+                        :bb_ne_lat  => bb.upper_corner.lat,
+                        :bb_ne_lon => bb.upper_corner.lon)
+    rescue
+      errors[:ridedata] << "Failed while parsing geometry"
     end
-    gc=GeoRuby::SimpleFeatures::GeometryCollection.from_geometries(tmp)
-    bb = gc.bounding_box
-    centroid=max_segment.envelope().center
-    self.update_attributes(:centroid_lat  => centroid.lat,
-                           :centroid_lon  => centroid.lon,
-                           :bb_sw_lat  =>  bb[0].lat,
-                           :bb_sw_lon  => bb[0].lon,
-                           :bb_ne_lat  =>  bb[1].lat,
-                           :bb_ne_lon => bb[1].lon)
   end
 
   def self.description_valid?(descriptions)
@@ -141,7 +147,7 @@ class Ride < ActiveRecord::Base
     return false
   end
 
-  def set_ride_attributes(attr_arr)
+  def set_attributes
 # # table["rows"].collect {|r| r[1]}.grep(/mytracks/).first.split('<br>')
 # 0 # => ["Created by <a href='http://www.google.com/mobile/mytracks'>My Tracks</a> on Android.<p>Name: 08/26/2012 8:57am",
 # 1 #  "Activity type: -",
@@ -161,25 +167,30 @@ class Ride < ActiveRecord::Base
 # 15  #  "Max grade: 13 %",
 # 16  #  "Min grade: -16 %",
 # 17  #  "Recorded: 08/26/2012 8:57am",
-    
-    # hack to parse date
-    datetext = attr_arr[17].split(':',2).last
-    if ( datetext.include?('/') )
-        datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"
-    else
-        datetime = DateTime.parse( datetext ); # "Tue Aug 23 06:32:43 PDT 2011"
-    end
+    begin 
+      fields = rows.collect {|r| r[1]}.grep(/mytracks/).first.split('<br>')
 
-    attr = { 
-      :total_distance => attr_arr[3].split(':').last.split(' ').first.to_f,
-      :moving_time =>  Ride.timestring_to_sec(attr_arr[5].split(':',2).last),
-      :avg_moving_speed => attr_arr[7].split(':').last.split(' ').first.to_f,
-      :elevation_gain => attr_arr[14].split(':').last.split(' ').first.to_f,
-      :recorded => datetime
-    }
-    binding.pry
-    update_attributes!(attr)
- 
+      # hack to parse date
+      datetext = fields[17].split(':',2).last
+      if ( datetext.include?('/') )
+        datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"
+      else
+        datetime = DateTime.parse( datetext ); # "Tue Aug 23 06:32:43 PDT 2011"
+      end
+
+      attr = { 
+        :total_distance => fields[3].split(':').last.split(' ').first.to_f,
+        :moving_time =>  Ride.timestring_to_sec(fields[5].split(':',2).last),
+        :avg_moving_speed => fields[7].split(':').last.split(' ').first.to_f,
+        :max_elevation => fields[12].split(':').last.split(' ').first.to_f,
+        :min_elevation => fields[13].split(':').last.split(' ').first.to_f,
+        :elevation_gain => fields[14].split(':').last.split(' ').first.to_f,
+        :recorded => datetime
+      }
+      update_attributes!(attr)
+    rescue
+      errors[:ridedata] << "Failed while parsing fields"
+    end
   end
 
   def self.timestring_to_sec(time)

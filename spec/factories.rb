@@ -7,7 +7,7 @@ FactoryGirl.define do
   end
 
   factory :ride  do
-    fusiontable_id     "123123"
+    google_table_id     "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34"
     association :user
     ridedata '[{:geometry=>"<Point><coordinates>-122.170504,37.424195,13.0</coordinates></Point>"}, {:geometry=>"<LineString><coordinates>-122.170504,37.424195,13.0 -122.170533,37.423975,16.20</coordinates></LineString>"}, {:geometry=>"<Point><coordinates>-122.171136,37.360698,270.79998779296875</coordinates></Point>"}]'
     centroid_lat       "37.4"
