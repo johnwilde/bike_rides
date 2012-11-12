@@ -35,7 +35,7 @@ describe "Ride" do
           "18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"]
     end
 
-    it "gets array of table ids that for rides we don't have" do
+    it "gets array of table ids for rides we don't have" do
       @user.rides.create!(@attr)
       Ride.new_table_ids_for_user(@user, @table_list).should ===
         ["18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"]

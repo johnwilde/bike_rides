@@ -13,6 +13,7 @@ class RidesController < ApplicationController
   end
 
   def show
+    # render :json => @ride.ridedata
   end
 
   def index

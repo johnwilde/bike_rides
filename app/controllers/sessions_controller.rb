@@ -16,9 +16,9 @@ class SessionsController < ApplicationController
 
   def sign_in(auth)
     puts "CREATING SESSION"
-    # User.create_with_omniauth(auth)
     user = User.find_by_uid(auth["uid"].to_s) || User.create_with_omniauth(auth)
-    user.update_attributes(:token  => auth["credentials"]["token"], :secret  => auth["credentials"]["secret"])
+    user.update_attributes(:token  => auth["credentials"]["token"], 
+                           :secret  => auth["credentials"]["secret"])
     session[:user_id] = user.id
   end
 

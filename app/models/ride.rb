@@ -63,38 +63,34 @@ class Ride < ActiveRecord::Base
     end
   end
 
-  def self.table_ids_for_user(user)
-    search(user).map(&:google_table_id)
-  end
-
   def self.new_table_ids_for_user(user, table_list_json)
     table_list_json["items"].map{|i| i["tableId"]} -
-      table_ids_for_user(user)
+      user.table_ids
   end
 
   def self.make_rides_from_fusiontables(user)
-    ft = get_fusiontable(user)
-    tables=ft.show_tables
+    tables=user.get_fusiontable_list
+
     puts "Checking for new rides."
-    puts "Found #{helpers.pluralize(tables.length, 'table')}"
-    new_tables = []
-    tables.each do |table|
-      if !find_by_fusiontable_id(table.id)
-        new_tables << table
-      end
-    end
-    out_s = []
-    out_s << "Found #{helpers.pluralize(new_tables.length, 'new table')}"
+    puts "Found #{helpers.pluralize(tables["items"].length, 'table')}"
+
+    new_table_ids = new_table_ids_for_user(user, tables)
+
+    puts "Found #{helpers.pluralize(new_table_ids.length, 'new table')}"
+
     num_rides_before = Ride.count
-    new_tables.each do |table|
-      result = make_ride_from_table(table, user)
+
+    new_table_ids.each do |table_id|
+      table_json = user.get_fusiontable(table_id)
+      result = make_ride_from_table(table_id, table_json, user)
       if (!result.blank?)
-        out_s <<  "On table #{table.id}: " + result
+        puts "On table #{table.id}: " + result
       end
     end 
+
     num_rides_after = Ride.count
     n=num_rides_after-num_rides_before
-    out_s << "Created #{helpers.pluralize(n,'ride')}."
+    "Created #{helpers.pluralize(n,'ride')}."
   end
 
   def self.make_ride_from_table(id, table, user)
@@ -102,6 +98,7 @@ class Ride < ActiveRecord::Base
       ride=nil
 
       puts "Making ride #{id}"
+      binding.pry
       ride=user.rides.create({:google_table_id  => id,
                               :ridedata  => table})
       if (!ride.valid?)
