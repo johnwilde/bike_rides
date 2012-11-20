@@ -1,36 +1,3 @@
-# == Schema Information
-#
-# Table name: rides
-#
-#  id                  :integer         primary key
-#  fusiontable_id      :integer
-#  created_at          :timestamp
-#  updated_at          :timestamp
-#  ridedata            :text
-#  centroid_lat        :float
-#  centroid_lon        :float
-#  bb_sw_lat           :float
-#  bb_sw_lon           :float
-#  bb_ne_lat           :float
-#  bb_ne_lon           :float
-#  user_id             :integer
-#  description         :text
-#  total_distance      :float
-#  total_time          :integer
-#  moving_time         :integer
-#  avg_speed           :float
-#  avg_moving_speed    :float
-#  max_speed           :float
-#  min_elevation       :float
-#  max_elevation       :float
-#  elevation_gain      :float
-#  max_grade           :float
-#  min_grade           :float
-#  recorded            :timestamp
-#  private_description :text
-#
-
-# require 'geo_ruby/simple_features'
 require 'geo_ruby'
 
 class Ride < ActiveRecord::Base
@@ -39,9 +6,9 @@ class Ride < ActiveRecord::Base
   belongs_to :user
   validates :google_table_id, :ridedata, :presence  => true
   default_scope :order  => 'rides.recorded DESC'
+  after_validation :parse_ridedata
 
-  def initialize(params, options)
-    super
+  def parse_ridedata
     set_attributes
     compute_bounding_box
     puts "Created ride with duration: #{moving_time}"
@@ -98,7 +65,6 @@ class Ride < ActiveRecord::Base
       ride=nil
 
       puts "Making ride #{id}"
-      binding.pry
       ride=user.rides.create({:google_table_id  => id,
                               :ridedata  => table})
       if (!ride.valid?)
@@ -129,7 +95,7 @@ class Ride < ActiveRecord::Base
                        from_geojson(i.to_json)}
       gc = GeoRuby::SimpleFeatures::GeometryCollection.from_geometries(tmp)
       bb = gc.envelope
-      update_attributes(:centroid_lat  => bb.center.lat,
+      assign_attributes(:centroid_lat  => bb.center.lat,
                         :centroid_lon  => bb.center.lon,
                         :bb_sw_lat  => bb.lower_corner.lat,
                         :bb_sw_lon  => bb.lower_corner.lon, 
@@ -183,12 +149,13 @@ class Ride < ActiveRecord::Base
         :total_distance => fields[3].split(':').last.split(' ').first.to_f,
         :moving_time =>  Ride.timestring_to_sec(fields[5].split(':',2).last),
         :avg_moving_speed => fields[7].split(':').last.split(' ').first.to_f,
+        :max_speed => fields[8].split(':').last.split(' ').first.to_f,
         :max_elevation => fields[12].split(':').last.split(' ').first.to_f,
         :min_elevation => fields[13].split(':').last.split(' ').first.to_f,
         :elevation_gain => fields[14].split(':').last.split(' ').first.to_f,
         :recorded => datetime
       }
-      update_attributes!(attr)
+      assign_attributes(attr)
     rescue
       errors[:ridedata] << "Failed while parsing fields"
     end

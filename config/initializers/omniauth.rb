@@ -12,6 +12,4 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2, CONSUMER_KEY, CONSUMER_SECRET,
     :identifier => 'https://www.google.com/accounts/o8/id', 
     :scope  => "fusiontables.readonly,userinfo.email,userinfo.profile"
-    # :client_id => CONSUMER_KEY,
-    # :client_secret => CONSUMER_SECRET
 end

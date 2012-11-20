@@ -4,32 +4,14 @@ FactoryGirl.define do
     email "testuser@gmail.org"
     provider   "google_oauth2"
     sequence(:uid) { |n| n }
+    credentials  {{"token"=>"ya29.AHES6ZR2ZxXlXtduasdD9C0suKGQUxIlkWCt-6b6_lKMCQ", "refresh_token"=>"1/UZDu8DHlrB-1vf6vT945K8cfRxILZKiAou6HQqLZBvo", "expires_at"=>1348469521, "expires"=>true}}
+    extra_raw_info {{"id"=>"104009305006165168598", "email"=>"johnwilde@gmail.com", "verified_email"=>true, "name"=>"John Wilde", "given_name"=>"John", "family_name"=>"Wilde", "link"=>"https://plus.google.com/104009305006165168598", "picture"=>"https://lh4.googleusercontent.com/-FC2gR_Eh7FI/AAAAAAAAAAI/AAAAAAAAGCw/nudXajQVy50/photo.jpg", "gender"=>"male", "birthday"=>"0000-08-24", "locale"=>"en-US"}}
   end
 
   factory :ride  do
     google_table_id     "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34"
     association :user
-    ridedata '[{:geometry=>"<Point><coordinates>-122.170504,37.424195,13.0</coordinates></Point>"}, {:geometry=>"<LineString><coordinates>-122.170504,37.424195,13.0 -122.170533,37.423975,16.20</coordinates></LineString>"}, {:geometry=>"<Point><coordinates>-122.171136,37.360698,270.79998779296875</coordinates></Point>"}]'
-    centroid_lat       "37.4"
-    centroid_lon       "-122.16" 
-    bb_sw_lat          "37.36"   
-    bb_sw_lon          "-122.17" 
-    bb_ne_lat          "37.42"   
-    bb_ne_lon          "-122.15" 
-    description        "description"
-    total_distance     "1.5"  
-    total_time         "1"    
-    moving_time        "1"    
-    avg_speed          "10"   
-    avg_moving_speed   "10"
-    max_speed          "10" 
-    min_elevation      "10" 
-    max_elevation      "10" 
-    elevation_gain     "10" 
-    max_grade          "10" 
-    min_grade          "10" 
-    recorded           "2011-10-07 02:30:44.000000"  
-    private_description     "private note"
+    ridedata {JSON.parse(open(File.dirname(__FILE__) + '/support/ft-response-small.json','r').read)}
   end
 
   sequence :uid do |n|

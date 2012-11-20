@@ -1,21 +1,3 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id               :integer         primary key
-#  provider         :string(255)
-#  uid              :string(255)
-#  name             :string(255)
-#  created_at       :timestamp
-#  updated_at       :timestamp
-#  token            :string(255)
-#  secret           :string(255)
-#  admin            :boolean         default(FALSE)
-#  ride_id          :integer
-#  email            :string(255)
-#  use_metric_units :boolean
-#
-
 require 'google/api_client'
 
 if Rails.env == 'production'
@@ -84,8 +66,4 @@ class User < ActiveRecord::Base
     return @api unless !@api
     @api = google_api_client.discovered_api('fusiontables', 'v1')
   end
-
-
-
-
 end
