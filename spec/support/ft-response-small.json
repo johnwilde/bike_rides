@@ -1,0 +1,68 @@
+{
+ "kind": "fusiontables#sqlresponse",
+ "columns": [
+  "name",
+  "description",
+  "geometry",
+  "marker"
+ ],
+ "rows": [
+  [
+   "08/26/2012 8:57am (Start)",
+   "",
+   {
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      -122.434348,
+      37.791578,
+      64.9000015258789
+     ]
+    }
+   },
+   "large_green"
+  ],
+  [
+   "08/26/2012 8:57am (Part 6)",
+   "",
+   {
+    "geometry": {
+     "type": "LineString",
+     "coordinates": [
+      [
+       -122.729697,
+       37.97162,
+       90.9000015258789
+      ],
+      [
+       -122.729581,
+       37.971416,
+       89.80000305175781
+      ],
+      [
+       -122.729428,
+       37.971237,
+       91.80000305175781
+      ]
+     ]
+    }
+   },
+   ""
+  ],
+  [
+   "08/26/2012 8:57am (End)",
+   "Created by \u003ca href='http://www.google.com/mobile/mytracks'\u003eMy Tracks\u003c/a\u003e on Android.\u003cp\u003eName: 08/26/2012 8:57am\u003cbr\u003eActivity type: -\u003cbr\u003eDescription: -\u003cbr\u003eTotal distance: 132.20 km (82.1 mi)\u003cbr\u003eTotal time: 8:04:02\u003cbr\u003eMoving time: 5:49:20\u003cbr\u003eAverage speed: 16.39 km/h (10.2 mi/h)\u003cbr\u003eAverage moving speed: 22.71 km/h (14.1 mi/h)\u003cbr\u003eMax speed: 53.10 km/h (33.0 mi/h)\u003cbr\u003eAverage pace: 3.66 min/km (5.9 min/mi)\u003cbr\u003eAverage moving pace: 2.64 min/km (4.3 min/mi)\u003cbr\u003eFastest pace: 1.13 min/km (1.8 min/mi)\u003cbr\u003eMax elevation: 439 m (1441 ft)\u003cbr\u003eMin elevation: -38 m (-126 ft)\u003cbr\u003eElevation gain: 2049 m (6723 ft)\u003cbr\u003eMax grade: 13 %\u003cbr\u003eMin grade: -16 %\u003cbr\u003eRecorded: 08/26/2012 8:57am\u003cbr\u003e\u003cimg border=\"0\" src=\"http://chart.apis.google.com/chart?&chs=600x350&cht=lxy&chtt=Elevation&chxt=x,y&chxr=0,0,82,13|1,-200.0,1500.0,200&chco=009A00&chm=B,00AA00,0,0,0&chg=100000,11.764705882352942,1,0&chd=e:AAAPAfAwA-BNBdBsB6CKCaCvDCDQDdDrD4EHEVEjEyFFFVFkFxGAGQGhGzHDHSHhHxICIRIfIvI-JMJcJtJ9KLKZKmK1LDLSLiL4MLMZMrM5NINXNlNzODOSOhOuO-PMPaPnP1QCQRQfQtQ8RKRZRnR2SFSUSkS0TBTXTpT5UJUZUpU5VJVXVnV9WSWiW3XLXdXwYAYOYeYrY7ZKZaZnZ1aDaPaeaqa3bFbUbibwb9cMcecxdGdedsd6eLebese9fMfeftf8gNgcgrg5hMhchuiBiUiki3jIjajqj9kOkgk0lJlalol3mImYmtm.nQnin1oLojo3pLphp3qKqcqsq.rSrmr5sOsis1tJtYtmtzuBuOubunu0vDvPvcvpv3wEwSwiw4xOxox4yLydyty-zQzoz60J0h061N1e112F2V2k203F3V3l304F4W4m445G5W5l516C6S6i6y7A7P7d7s768I8Y8n829H9W9l93-H-Y-n-3.H.X.m.y,PiM2L3O2OhOYPmQTQhQjR3PXMfLQMVNTOSOrNqMlM2HLFKGFH.IRH1EwEhE1EdFoG1EZEtEDEIEcEDEQDvD3D9ExHrKLNqPFQuLMHDG0FHE2EcEPD6EoEXEUEhFODyFiFzGGG0G.GqHsI.JDJqKPLKMIMoNCRpW9a.XAVBUNSqTRR8Q0SvTlWzWXTTTBSvQHOMMeMlM3LxLELOLALgLoMvMFLbKqKbLALRK0LJLFLILALnLqKsHdGEGUF5FpFgFHHRE7FaG-H7F3FFFTFlE6GcGNGlF9GdIDIpKoLMKMJLKXK4KYN7QTSPSFRPTGTOUlVIT6MvLUKgJJEcDuDxDZDJC-DOE2EPENEbEBGqKVL0RtVqZ4chhPjKn1sNwSz.4o7b8Z4fyfqZp0qOn3nsqBoeinfig1bMWwSRNvIRFMD0DvEbEgEOEFEiEJFEFZEkEJEDEuGEH5LRLaOYNVL8OcNgNTMpKIIELHOiPEQHQHPHOcM2NlPVNSLuLf\"/\u003e\u003cbr\u003e",
+   {
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      -122.434214,
+      37.791611,
+      40.099998474121094
+     ]
+    }
+   },
+   "large_red"
+  ]
+ ]
+}
