@@ -26,22 +26,11 @@ describe "Ride" do
       testfile = File.dirname(__FILE__) + '/../support/ft-list.json'
       @table_list = JSON.parse(open(testfile,'r').read)
     end
-    it "gets array of table ids for a user" do
-      @user.rides.create!(@attr)
-      @attr.merge!({ :google_table_id  => "18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"})
-      @user.rides.create!(@attr)
-      Ride.table_ids_for_user(@user).should == 
-        [ "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34",
-          "18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"]
-    end
-
     it "gets array of table ids for rides we don't have" do
       @user.rides.create!(@attr)
       Ride.new_table_ids_for_user(@user, @table_list).should ===
         ["18HLxJVyuRA9qRXzqzJ94aouo9ZkyC9lQZ4ORCbA"]
     end
-
-    
   end
 
   describe "user associations" do

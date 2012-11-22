@@ -49,12 +49,22 @@ describe "User" do
   describe "ride associations" do
     before(:each) do
       @user = User.create(@attr)
-      @r1 = FactoryGirl.build(:ride, :user => @user, :recorded => 1.day.ago)
-      @r2 = FactoryGirl.build(:ride, :user => @user, :recorded => 1.hour.ago)
+      @r1 = FactoryGirl.create(:ride, :google_table_id => "id1", :user => @user)
+      @r2 = FactoryGirl.create(:ride, :google_table_id => "id2", :user => @user)
     end
 
     it "should have the rides in the right order" do
+      # replace the "Recorded" date in the ridedata then save record
+      # (the save will trigger parse_ridedata)
+      earlier_ridedata = @r2.ridedata
+      earlier_ridedata["rows"][2][1].gsub!("Recorded: 08/26/2012 8:57am","Recorded: 08/26/2013 8:57am")
+      @r2.ridedata=earlier_ridedata
+      @r2.save
       @user.rides.should == [@r2, @r1]
+    end
+
+    it "should return list of ride ids" do
+      @user.table_ids.should == ["id1", "id2"]
     end
 
     it "should destroy associated rides" do
