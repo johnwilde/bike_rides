@@ -4,7 +4,7 @@ describe TeamMember do
     api = MockApi.new(1)
     TeamMember.class_variable_set(:@@api, api )
     StravaTeam.class_variable_set(:@@api, api )
-    @team_member = Factory(:team_member)
+    @team_member = FactoryGirl.create(:team_member)
   end
 
   it "should create new team member" do

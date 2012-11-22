@@ -7,7 +7,7 @@ describe StravaTeam do
     StravaTeam.class_variable_set(:@@api, api)
     TeamMember.class_variable_set(:@@api, api)
       
-    @strava_team = Factory(:strava_team)
+    @strava_team = FactoryGirl.create(:strava_team)
     @attr = {:team_name => 'coretech', :strava_id => 2207}
   end
 
