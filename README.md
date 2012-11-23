@@ -9,7 +9,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 
 
 ### The TODO list
-0. Bigger Maps!
+0. User feedback during ride import process
 1. Robust search/filtering capability (currently can only search by user ID)
 2. Show multiple routes on a single map
 3. More interesting and customizable aggregate statistics on rides

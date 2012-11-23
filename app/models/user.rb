@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
       :merged_body => '',
       :headers => [['Content-Type', 'application/json']]
     )
+    # open(table_id+'.json', 'w').write(result.response.body)
     JSON.parse(result.response.body)
   end
   def google_api_client

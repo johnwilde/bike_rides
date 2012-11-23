@@ -6,7 +6,7 @@ class Ride < ActiveRecord::Base
   belongs_to :user
   validates :google_table_id, :ridedata, :presence  => true
   default_scope :order  => 'rides.recorded DESC'
-  after_validation :parse_ridedata
+  after_create :parse_ridedata
 
   def parse_ridedata
     set_attributes
@@ -65,8 +65,11 @@ class Ride < ActiveRecord::Base
       ride=nil
 
       puts "Making ride #{id}"
-      ride=user.rides.create({:google_table_id  => id,
-                              :ridedata  => table})
+      ride=Ride.create({:google_table_id  => id,
+                        :ridedata  => table, :user => user})
+
+      # ride=user.rides.create({:google_table_id  => id,
+      #                         :ridedata  => table})
       if (!ride.valid?)
         return "No geometry data"
       end
@@ -134,33 +137,64 @@ class Ride < ActiveRecord::Base
 # 15  #  "Max grade: 13 %",
 # 16  #  "Min grade: -16 %",
 # 17  #  "Recorded: 08/26/2012 8:57am",
+    #
+ # 0 "<p>Morning ride</p><p>Created by <a href='http://mytracks.appspot.com'>My Tracks</a> on Android.<p>Total Distance: 32.91 km (20.4 mi)",
+ # 1 "Total Time: 1:08:12",
+ # 2 "Moving Time: 57:29",
+ # 3 "Average Speed: 28.95 km/h (18.0 mi/h)",
+ # 4 " Average Moving Speed: 34.35 km/h (21.3 mi/h)",
+ # 5 " Max Speed: 65.70 km/h (40.8 mi/h)",
+ # 6 "Min Elevation: -10 m (-31 ft)",
+ # 7 "Max Elevation: 173 m (569 ft)",
+ # 8 "Elevation Gain: 420 m (1378 ft)",
+ # 9 "Max Grade: 10 %",
+ # 10 "Min Grade: -8 %",
+ # 11 "Recorded: Tue Aug 23 06:32:43 PDT 2011",
+ # 12 "Activity type: -",
+ #
     begin 
-      fields = rows.collect {|r| r[1]}.grep(/mytracks/).first.split('<br>')
-
-      # hack to parse date
-      datetext = fields[17].split(':',2).last
-      if ( datetext.include?('/') )
-        datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"
+      fields = rows.collect {|r| r[1]}.grep(/mytracks/).first;
+      fields = fields.gsub('\n',' ').split('<br>')
+      if fields[17] != nil
+        # hack to parse date
+        datetext = fields[17].split(':',2).last
+        datetime = parse_date(datetext)
+        attr = { 
+          :total_distance => fields[3].split(':').last.split(' ').first.to_f,
+          :moving_time =>  Ride.timestring_to_sec(fields[5].split(':',2).last),
+          :avg_moving_speed => fields[7].split(':').last.split(' ').first.to_f,
+          :max_speed => fields[8].split(':').last.split(' ').first.to_f,
+          :max_elevation => fields[12].split(':').last.split(' ').first.to_f,
+          :min_elevation => fields[13].split(':').last.split(' ').first.to_f,
+          :elevation_gain => fields[14].split(':').last.split(' ').first.to_f,
+          :recorded => datetime
+        }
       else
-        datetime = DateTime.parse( datetext ); # "Tue Aug 23 06:32:43 PDT 2011"
+        datetext = fields[11].split(':',2).last
+        datetime = parse_date(datetext)
+        attr = { 
+          :total_distance => fields[0].split(':').last.split(' ').first.to_f,
+          :moving_time =>  Ride.timestring_to_sec(fields[2].split(':',2).last),
+          :avg_moving_speed => fields[3].split(':').last.split(' ').first.to_f,
+          :max_speed => fields[5].split(':').last.split(' ').first.to_f,
+          :max_elevation => fields[7].split(':').last.split(' ').first.to_f,
+          :min_elevation => fields[6].split(':').last.split(' ').first.to_f,
+          :elevation_gain => fields[8].split(':').last.split(' ').first.to_f,
+          :recorded => datetime
+        }
       end
-
-      attr = { 
-        :total_distance => fields[3].split(':').last.split(' ').first.to_f,
-        :moving_time =>  Ride.timestring_to_sec(fields[5].split(':',2).last),
-        :avg_moving_speed => fields[7].split(':').last.split(' ').first.to_f,
-        :max_speed => fields[8].split(':').last.split(' ').first.to_f,
-        :max_elevation => fields[12].split(':').last.split(' ').first.to_f,
-        :min_elevation => fields[13].split(':').last.split(' ').first.to_f,
-        :elevation_gain => fields[14].split(':').last.split(' ').first.to_f,
-        :recorded => datetime
-      }
       assign_attributes(attr)
     rescue
       errors[:ridedata] << "Failed while parsing fields"
     end
   end
-
+  def parse_date(datetext)
+    if ( datetext.include?('/') )
+      datetime = DateTime.strptime( datetext, ' %m/%d/%Y %H:%M %p ')  # "02/18/2012 7:57 am"
+    else
+      datetime = DateTime.parse( datetext ); # "Tue Aug 23 06:32:43 PDT 2011"
+    end
+  end    
   def self.timestring_to_sec(time)
     sec=0
     mult=1
