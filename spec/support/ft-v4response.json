@@ -1,0 +1,26 @@
+{
+ "kind": "fusiontables#sqlresponse",
+ "columns": [
+  "name",
+  "description",
+  "geometry",
+  "marker"
+ ],
+ "rows": [
+  [
+   "09/14/2012 4:21pm (Start)",
+   "",
+   {
+    "geometry": {
+     "type": "Point",
+     "coordinates": [
+      -119.943498,
+      38.960877,
+      1891.800048828125
+     ]
+    }
+   },
+   "large_green"
+  ]
+ ]
+}

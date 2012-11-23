@@ -49,7 +49,7 @@ class User < ActiveRecord::Base
       :headers => [['Content-Type', 'application/json']]
     )
     # open(table_id+'.json', 'w').write(result.response.body)
-    JSON.parse(result.response.body)
+    result.response.body
   end
   def google_api_client
     return @api_client unless !@api_client

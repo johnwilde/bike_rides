@@ -32,7 +32,7 @@ class RidesController < ApplicationController
     # if !Rails.env.development?
     #   result = Ride.make_rides_from_fusiontables(current_user)
     # end
-    Resque.enqueue(Weather)
+    # Resque.enqueue(Weather)
     redirect_to :back, :notice  => result
   end
 

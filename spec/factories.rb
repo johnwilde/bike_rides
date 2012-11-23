@@ -11,7 +11,8 @@ FactoryGirl.define do
   factory :ride  do
     google_table_id     "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34"
     association :user
-    ridedata {JSON.parse(open(File.dirname(__FILE__) + '/support/ft-response-small.json','r').read)}
+    # ridedata {JSON.parse(open(File.dirname(__FILE__) + '/support/ft-response-small.json','r').read)}
+    ridedata {open(File.dirname(__FILE__) + '/support/ft-response-small.json','r').read}
   end
 
   sequence :uid do |n|
