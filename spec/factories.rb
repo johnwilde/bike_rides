@@ -9,10 +9,14 @@ FactoryGirl.define do
   end
 
   factory :ride  do
-    google_table_id     "1Egw_xFIEnkrzUEvbt4O9-rs2U6VG09vxYgRNH34"
+    ignore do
+      file 'ft-response-small.json'
+    end
+
+    google_table_id    {"ID:FactoryGirl-#{file}"}
     association :user
     # ridedata {JSON.parse(open(File.dirname(__FILE__) + '/support/ft-response-small.json','r').read)}
-    ridedata {open(File.dirname(__FILE__) + '/support/ft-response-small.json','r').read}
+    ridedata {open(File.dirname(__FILE__) + "/support/#{file}",'r').read}
   end
 
   sequence :uid do |n|
