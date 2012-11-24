@@ -148,7 +148,7 @@ class RideDetail < ActiveRecord::Base
       else
         attr = parse_v3(fields)
       end
-      assign_attributes(attr)
+      update_attributes(attr)
     rescue
       errors[:ridedata] << "Failed while parsing fields"
     end
