@@ -18,7 +18,7 @@ class RidesController < ApplicationController
   end
 
   def index
-    @results = Ride.search(params)
+    @results = Ride.search(params).reject{|r| r.ride_detail == nil} 
     @rides = @results.paginate(:page => params[:page], :per_page => 4)
   end
 

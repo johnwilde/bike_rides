@@ -35,7 +35,7 @@ class RideDetail < ActiveRecord::Base
                        from_geojson(i.to_json)}
       gc = GeoRuby::SimpleFeatures::GeometryCollection.from_geometries(tmp)
       bb = gc.envelope
-      assign_attributes(:centroid_lat  => bb.center.lat,
+      update_attributes(:centroid_lat  => bb.center.lat,
                         :centroid_lon  => bb.center.lon,
                         :bb_sw_lat  => bb.lower_corner.lat,
                         :bb_sw_lon  => bb.lower_corner.lon, 

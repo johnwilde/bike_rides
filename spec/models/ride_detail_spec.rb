@@ -2,9 +2,15 @@ require 'spec_helper'
 
 describe RideDetail do
   describe "parse ride geometry" do
-    it "should parse geo data" do
-      ride = FactoryGirl.create(:ride)
+    it "should parse geo data v1" do
+      ride = FactoryGirl.create(:ride, :file => 'ft-v1response.json')
       ride.ride_detail.centroid_lat.should_not be_nil
+      ride.ride_detail.bb_sw_lat.should_not be_nil
+    end
+    it "should parse geo data v2" do
+      ride = FactoryGirl.create(:ride, :file => 'ft-v2response.json')
+      ride.ride_detail.centroid_lat.should_not be_nil
+      ride.ride_detail.bb_sw_lat.should_not be_nil
     end
   end
 

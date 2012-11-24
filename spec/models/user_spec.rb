@@ -58,7 +58,7 @@ describe "User" do
       @r2.ride_detail.recorded=1.hour.ago
       @r1.ride_detail.save
       @r2.ride_detail.save
-      @user.rides.should == [@r2, @r1]
+      @user.rides.by_date.should == [@r2, @r1]
     end
 
     it "should return list of ride ids" do
