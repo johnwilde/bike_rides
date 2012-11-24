@@ -54,12 +54,10 @@ describe "User" do
     end
 
     it "should have the rides in the right order" do
-      # replace the "Recorded" date in the ridedata then save record
-      # (the save will trigger parse_ridedata)
-      earlier_ridedata = @r2.ridedata
-      earlier_ridedata["rows"][2][1].gsub!("Recorded: 08/26/2012 8:57am","Recorded: 08/26/2013 8:57am")
-      @r2.ridedata=earlier_ridedata
-      @r2.save
+      @r1.ride_detail.recorded=1.day.ago
+      @r2.ride_detail.recorded=1.hour.ago
+      @r1.ride_detail.save
+      @r2.ride_detail.save
       @user.rides.should == [@r2, @r1]
     end
 

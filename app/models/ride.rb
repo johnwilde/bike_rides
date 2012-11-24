@@ -1,14 +1,17 @@
 require 'geo_ruby'
 
 class Ride < ActiveRecord::Base
-  # make everything accessible
-  #attr_accessible 
   belongs_to :user
   has_one :ride_detail, :dependent => :destroy
   validates :google_table_id, :ridedata, :presence  => true
-  default_scope :order  => 'rides.recorded DESC'
-  after_create :after_create
+  default_scope :joins => "left join ride_details on ride_details.ride_id = rides.id", 
+    :order => "ride_details.recorded DESC"
 
+  delegate :total_distance, :moving_time, :avg_moving_speed, :max_speed,
+    :max_elevation, :min_elevation, :elevation_gain, :recorded, 
+    :recorded_localtime, to: :ride_detail
+
+  after_create :after_create
   def after_create
     create_ride_detail
     ride_detail.update_details
@@ -76,21 +79,6 @@ class Ride < ActiveRecord::Base
       puts "Created ride with duration: #{ride.moving_time}"
       return ""
     end
-
-  end
-
-  def recorded_localtime
-    # rides are saved using local time
-    recorded
-  end
-
-
-  def self.description_valid?(descriptions)
-    # Todo: make this robust
-    descriptions.each do |d|
-      return true if !d[:description].nil?
-    end
-    return false
   end
 
 end

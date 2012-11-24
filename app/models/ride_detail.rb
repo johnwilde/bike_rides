@@ -22,6 +22,7 @@ class RideDetail < ActiveRecord::Base
     min_elevation:#{min_elevation}
     max_elevation:#{max_elevation}
     elevation_gain:#{elevation_gain}
+    recorded:#{recorded}
     "
   end
 
@@ -170,5 +171,18 @@ class RideDetail < ActiveRecord::Base
       mult*=60
     end
     return sec
+  end
+
+  def recorded_localtime
+    # rides are saved using local time
+    recorded
+  end
+
+  def self.description_valid?(descriptions)
+    # Todo: make this robust
+    descriptions.each do |d|
+      return true if !d[:description].nil?
+    end
+    return false
   end
 end

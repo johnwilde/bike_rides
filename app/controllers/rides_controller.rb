@@ -7,7 +7,8 @@ class RidesController < ApplicationController
 
   def update
     if @ride.update_attributes(params[:ride])
-      redirect_to rides_path + "?user_id=#{@ride.user_id}", :flash => { :success => "Ride updated." }
+      redirect_to rides_path + "?user_id=#{@ride.user_id}", 
+        :flash => { :success => "Ride updated." }
     else
     end
   end
