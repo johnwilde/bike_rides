@@ -1,5 +1,6 @@
 class RideDetail < ActiveRecord::Base
   belongs_to :ride
+  validates :recorded, :presence => true
 
   def update_details
     set_attributes

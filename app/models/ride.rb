@@ -13,7 +13,7 @@ class Ride < ActiveRecord::Base
 
   after_create :after_create
   def after_create
-    create_ride_detail
+    build_ride_detail
     ride_detail.update_details
   end
 
