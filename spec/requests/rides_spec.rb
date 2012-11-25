@@ -11,7 +11,7 @@ describe "Rides request" do
 
   it "allows owner of ride to delete the ride" do
     user = FactoryGirl.create(:user)
-    ride = FactoryGirl.create(:ride, :user => user, :recorded => 1.day.ago)
+    ride = FactoryGirl.create(:ride, :user => user)
     login user
     visit ride_path(ride)
     page.should have_button("Delete Ride")
@@ -19,7 +19,7 @@ describe "Rides request" do
 
   it "allows owner of ride to add notes to ride" do
     user = FactoryGirl.create(:user)
-    ride = FactoryGirl.create(:ride, :user => user, :recorded => 1.day.ago)
+    ride = FactoryGirl.create(:ride, :user => user)
     login user
     visit ride_path(ride)
     page.should have_content("Private Notes")

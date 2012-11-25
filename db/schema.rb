@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121123223949) do
+ActiveRecord::Schema.define(:version => 20121125233617) do
 
   create_table "ride_details", :force => true do |t|
     t.integer  "ride_id"
@@ -42,30 +42,11 @@ ActiveRecord::Schema.define(:version => 20121123223949) do
   end
 
   create_table "rides", :force => true do |t|
-    t.integer  "fusiontable_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "ridedata"
-    t.float    "centroid_lat"
-    t.float    "centroid_lon"
-    t.float    "bb_sw_lat"
-    t.float    "bb_sw_lon"
-    t.float    "bb_ne_lat"
-    t.float    "bb_ne_lon"
     t.integer  "user_id"
     t.text     "description"
-    t.float    "total_distance"
-    t.integer  "total_time"
-    t.integer  "moving_time"
-    t.float    "avg_speed"
-    t.float    "avg_moving_speed"
-    t.float    "max_speed"
-    t.float    "min_elevation"
-    t.float    "max_elevation"
-    t.float    "elevation_gain"
-    t.float    "max_grade"
-    t.float    "min_grade"
-    t.datetime "recorded"
     t.text     "private_description"
     t.text     "weather"
     t.text     "google_table_id"
