@@ -15,6 +15,13 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 3. More interesting and customizable aggregate statistics on rides
 4. Long term: provide a distribution of the elapsed time between two user-selected waypoints (across all the rides that went through those waypoints).  
 
+### AJAX for ride import
+- Click 'Import Rides'
+- Request for list of ride ids that aren't in DB
+- "Status: getting new rides"
+- Spawn series of requests (batches of 5?) to import rides
+- "Status: importing rides"
+- Append new ride descriptions to page
 
 ## Data Sources:
 - My ride spreadsheet

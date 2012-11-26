@@ -29,12 +29,15 @@ class RidesController < ApplicationController
   end
 
   def updateall
-    result = Ride.make_rides_from_fusiontables(current_user)
+    # result = Ride.make_rides_from_fusiontables(current_user)
     # if !Rails.env.development?
     #   result = Ride.make_rides_from_fusiontables(current_user)
     # end
     # Resque.enqueue(Weather)
-    redirect_to :back, :notice  => result
+    # redirect_to :back, :notice  => result
+    respond_to do |format|
+      format.js
+    end
   end
 
 end

@@ -4,10 +4,14 @@
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery
-//= require jquery_ujs
-//= require dataTables/jquery.dataTables
-//= require_tree .
-jQuery.ajaxSetup({
-  'beforeSend': function (xhr) {xhr.setRequestHeader("Accept", "text/javascript")}
+// This function is executed after the DOM is loaded
+$(function(){
+  $('.button_to').submit(function (){
+    $('.progress').show();
+    return true;
+    // $.post($(this).attr('action'), $(this).serialize(), null, "script");
+    // return false;
+  });
 });
+
+

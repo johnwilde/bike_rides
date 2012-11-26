@@ -232,4 +232,6 @@ table.ride-stats{
 textarea.public_notes, textarea.private_notes, textarea.public_notes_readonly{
   height: 110px;
 }
-
+/* p.progress{ */
+/*   visibility: hidden; */
+/* } */
