@@ -12,7 +12,7 @@ end
 class Weather
   @queue = :weather_queue
   def self.perform
-    rides = Ride.where( :weather  => nil )
+    rides = Ride.has_detail.where(:weather => nil)
     puts "Processing #{rides.size} rides"
     rides.each_index do |i|
       # limit API calls to 10/minute
@@ -21,7 +21,9 @@ class Weather
         sleep 60.seconds
       end
 
-      obs = self.get_weather( rides[i].recorded_localtime, rides[i].centroid_lat, rides[i].centroid_lon )
+      obs = self.get_weather(rides[i].recorded_localtime, 
+                             rides[i].ride_detail.centroid_lat, 
+                             rides[i].ride_detail.centroid_lon )
       rides[i].weather = obs.to_json 
       rides[i].save
       puts "Ride id=#{rides[i].id} was recorded when it was #{obs['tempi']} deg F"
@@ -30,21 +32,24 @@ class Weather
   end
 
   def self.get_weather( datetime, lat, lon )
-
     date_string = datetime.strftime("%Y%m%d")
-    url = 'http://api.wunderground.com/api/' + WUNDERGROUND_KEY + '/history_' + date_string + '/geolookup/conditions/q/' + lat.to_s + ',' + lon.to_s + '.json'
+    url = 'http://api.wunderground.com/api/' + WUNDERGROUND_KEY + 
+      '/history_' + date_string + '/geolookup/conditions/q/' + 
+      lat.to_s + ',' + lon.to_s + '.json'
     puts "query: #{url}"
 
     open(url) do |f| 
       json_string = f.read 
       parsed_json = JSON.parse(json_string) 
-      observation = self.get_best_observation(parsed_json['history']['observations'], datetime.hour, datetime.min) 
+      observation = self.get_best_observation(
+        parsed_json['history']['observations'], 
+        datetime.hour, 
+        datetime.min) 
       return observation
     end
   end
   
   def self.get_best_observation( history, hour, min )
-    
     if min > 30 then 
       hour = hour + 1
     end

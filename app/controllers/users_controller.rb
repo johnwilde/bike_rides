@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def show
     @title = @user.name
     @date = params[:month] ? Date.parse(params[:month]) : Date.today
-    @rides = @user.rides.by_date.reject {|r| r.ride_detail == nil}
+    @rides = @user.rides.by_date
   end
 
   def new

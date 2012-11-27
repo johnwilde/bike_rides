@@ -4,7 +4,8 @@ class Ride < ActiveRecord::Base
   belongs_to :user
   has_one :ride_detail, :dependent => :destroy
   validates :google_table_id, :ridedata, :presence  => true
-  scope :by_date, :joins => "left join ride_details on ride_details.ride_id = rides.id", 
+  scope :has_detail, :joins => "right join ride_details on ride_details.ride_id = rides.id"
+  scope :by_date, :joins => "right join ride_details on ride_details.ride_id = rides.id", 
     :order => "ride_details.recorded DESC"
 
   delegate :total_distance, :moving_time, :avg_moving_speed, :max_speed,
