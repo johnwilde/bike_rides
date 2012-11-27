@@ -1,1 +1,29 @@
-$('.progress').hide();
+var ids = <%= raw @new_ids.to_json %>;
+$('.result').html("<%= "Found: " + pluralize(@new_ids.size, 'new ride') %><br>");
+if (ids.length > 0) {
+  $('.status').html("Creating new rides...");
+} else {
+  $('.status').html("No new rides.");
+}
+var batchSize = 5;
+console.log(ids);
+while (ids.length > 0) {
+  var rideIds = [];
+  for (var i = 0; i < batchSize && ids.length > 0; i += 1) {
+    rideIds.push(ids.pop());
+  }
+  console.log("Getting these rides: " + rideIds);
+    // $.post($(this).attr('action'), $(this).serialize(), null, "script");
+  $.ajax({
+    type: 'GET',
+    url: '<%= raw new_ride_url %>',
+    dataType: 'text',
+    data: {ids: rideIds},
+    success: function(data) {
+      // should append this
+      $('.result').append(data);
+    }
+  });
+}
+
+$('.status').html("Finished importing rides.");

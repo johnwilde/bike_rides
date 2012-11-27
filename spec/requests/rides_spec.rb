@@ -24,7 +24,6 @@ describe "Rides request" do
     visit ride_path(ride)
     page.should have_content("Private Notes")
   end
-
   it "shows temperature of ride if it exists" do
     ride=Factory(:ride)
     visit ride_path(ride)
@@ -38,4 +37,9 @@ describe "Rides request" do
     visit ride_path(ride)
     page.should have_content("Total distance")
   end
+  # it "renders javascript" do
+  #   user = FactoryGirl.create(:user)
+  #   login user
+  #   visit ride_path(ride)
+  # end
 end

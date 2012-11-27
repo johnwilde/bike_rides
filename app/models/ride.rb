@@ -34,29 +34,28 @@ class Ride < ActiveRecord::Base
       user.table_ids
   end
 
-  def self.make_rides_from_fusiontables(user)
+  def self.get_new_ride_ids(user)
     tables=user.get_fusiontable_list
-
-    puts "Checking for new rides."
     puts "Found #{helpers.pluralize(tables["items"].length, 'table')}"
-
     new_table_ids = new_table_ids_for_user(user, tables)
-
     puts "Found #{helpers.pluralize(new_table_ids.length, 'new table')}"
+    new_table_ids
+  end
 
-    num_rides_before = Ride.count
-
-    new_table_ids.each do |table_id|
+  def self.make_rides(ids, user)
+    user_feedback = ""
+    ids.each do |table_id|
       table_json = user.get_fusiontable(table_id)
-      result = make_ride_from_table(table_id, table_json, user)
-      if (!result.blank?)
-        puts "On table #{table.id}: " + result
+      ride = make_ride_from_table(table_id, table_json, user)
+      if (!ride)
+        user_feedback += "Couldn't create ride: #{table_id}<br>"
+      elsif (ride.ride_detail)
+        user_feedback += "#{ride.ride_detail.recorded}, ID: #{ride.google_table_id}<br>"
+      else
+        user_feedback += "Error creating ride: #{table_id}<br>"
       end
     end 
-
-    num_rides_after = Ride.count
-    n=num_rides_after-num_rides_before
-    "Created #{helpers.pluralize(n,'ride')}."
+    user_feedback
   end
 
   def self.make_ride_from_table(id, table, user)
@@ -65,20 +64,21 @@ class Ride < ActiveRecord::Base
 
       puts "Making ride #{id}"
       ride=Ride.create({:google_table_id  => id,
-                        :ridedata  => table, :user => user})
+                        :ridedata  => table, 
+                        :user => user})
 
       if (!ride.valid?)
-        return "No geometry data"
+        puts "No ride data?"
+      else
+        puts "Created ride with duration: #{ride.moving_time}"
       end
     rescue
       if !ride.nil?
         ride.destroy
       end
-      return "Could not parse ride statistics"
-    else
-      puts "Created ride with duration: #{ride.moving_time}"
-      return ""
+      puts "Could not parse ride statistics"
     end
+    ride
   end
 
 end

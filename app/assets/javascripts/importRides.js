@@ -7,11 +7,11 @@
 // This function is executed after the DOM is loaded
 $(function(){
   $('.button_to').submit(function (){
-    $('.progress').show();
+    $('.status').show();
+    $('.status').html("Checking for new rides...");
     return true;
     // $.post($(this).attr('action'), $(this).serialize(), null, "script");
     // return false;
   });
 });
-
 
