@@ -3,6 +3,8 @@ development:
   encoding: unicode
   database: db/development
   pool: 5
+  username: john
+  password: john
   
 
 # Warning: The database defined as "test" will be erased and
@@ -13,6 +15,8 @@ test:
   encoding: unicode
   database: db/test
   pool: 5
+  username: john
+  password: john
 
 production:
   adapter: sqlite3

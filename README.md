@@ -40,6 +40,9 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
 - edit /etc/hosts file
 - Postgresql is the DB, some helpful commands:
 - to install (on OS X): brew install postgresql
+- on Ubuntu, to create the databases:
+  sudo -u postgres createdb db/test
+  sudo -u postgres createdb db/development
 - to get status of server: pg\_ctl status -D /usr/local/var/postgres/
 - to list available databases: psql -l
 - to process the background jobs that fetch Temperature data from Weather
@@ -48,6 +51,7 @@ A convenient web interface to the GPS track data gathered by the [My Tracks](htt
   Click on "Update Rides" in app (this puts rides without Temperature data on
   the queue)
 - Check out the startft.rb script for using GData::FusionTables interface 
+- set client secret in config/initializers from https://code.google.com/apis/console/
 
 ## General Resources ##
 <http://ruby.railstutorial.org/>  
